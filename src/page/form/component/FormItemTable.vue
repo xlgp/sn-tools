@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" stripe>
+  <el-table :data="tableData" stripe border>
     <template #empty>
       <el-empty :image-size="40">
         <el-button type="text" @click="addHandler">新增</el-button>
@@ -7,29 +7,17 @@
     </template>
     <template #append>
       <el-row justify="end">
-        <el-button type="primary" plain @click="addHandler">新增</el-button>
+        <el-button type="primary" style="margin: 4px;" plain @click="addHandler">新增</el-button>
       </el-row>
     </template>
-    <el-table-column
-      v-for="(value, key) in columnList"
-      :prop="key"
-      :label="value"
-    />
+    <el-table-column v-for="(value, key) in columnList" :prop="key" :label="value" :key="key" />
     <el-table-column fixed="right" label="操作" width="120">
       <template #default="{ row, column, $index }">
-        <table-action-column
-          @delete="deleteHandler(row, $index)"
-          @edit="editHandler(row, $index)"
-        />
+        <table-action-column @delete="deleteHandler(row, $index)" @edit="editHandler(row, $index)" />
       </template>
     </el-table-column>
   </el-table>
-  <el-dialog
-    v-model="dialogFormVisible"
-    title="添加项"
-    destroy-on-close
-    @close="closeHandler"
-  >
+  <el-dialog v-model="dialogFormVisible" title="添加项" destroy-on-close>
     <form-item v-model="formItem"></form-item>
     <template #footer>
       <span class="dialog-footer">
@@ -39,7 +27,6 @@
     </template>
   </el-dialog>
 </template>
-
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { FormItemType } from "../constants/formItem";
@@ -55,15 +42,18 @@ let data = {
 
 export default defineComponent({
   components: { TableActionColumn, FormItem },
-  setup() {
+  props: {
+    modelValue: Array
+  },
+  setup(props) {
     const columnList = {
       label: "名称",
       key: "KEY",
       type: "类型",
       value: "选项值",
     };
-
-    const tableData = ref<FormItemType[]>([]);
+    const modelValue = props.modelValue as FormItemType[];
+    const tableData = ref<FormItemType[]>(modelValue);
     const dialogFormVisible = ref<Boolean>(false);
     const formItem = ref<FormItemType>({} as FormItemType);
     const formItemIndex = ref(-1);
@@ -92,7 +82,6 @@ export default defineComponent({
       }
       formItemIndex.value = -1;
     };
-    const closeHandler = () => {};
 
     return {
       columnList,
@@ -102,8 +91,7 @@ export default defineComponent({
       addHandler,
       formItem,
       dialogFormVisible,
-      confirmHandler,
-      closeHandler,
+      confirmHandler
     };
   },
 });
