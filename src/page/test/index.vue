@@ -6,7 +6,7 @@
 import { ref } from "vue";
 
 let fileRef = ref(null);
-let change = (e) => {
-  console.log(e.target.files);
+let change = (e:Event) => {
+  
 };
 </script>
