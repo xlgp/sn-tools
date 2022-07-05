@@ -6,10 +6,14 @@ import Volume from './page/volume/index.vue';
 import Index from './page/index/index.vue';
 
 const routes = [
-  { path: '/', name: '首页', component: Index },
+  {
+    path: '/', name: '首页', component: Index, children: [
+      { path: '/volume', name: '体积计算', component: Volume },
+    ]
+  },
   { path: '/tongji', name: '统计', component: TongJi },
   { path: '/test', name: '测试', component: Test },
-  { path: '/volume', name: '体积计算', component: Volume },
+
 
 ]
 

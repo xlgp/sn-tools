@@ -1,17 +1,34 @@
 <template>
   <el-container>
     <el-header>小工具</el-header>
-    <el-main>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-card>
-            <router-link to="/volume"
-              ><el-link :icon="Edit">体积计算</el-link></router-link
-            >
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-main>
+    <el-container>
+      <el-aside width="200px">
+        <router-link to="/volume"><span class="link">体积计算</span></router-link>
+      </el-aside>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 <script setup></script>
+<style scope>
+.el-header {
+  text-align: center;
+  font-size: 28px;
+  background-color: #000b26;
+  color: white;
+  line-height: 58px;
+}
+
+.el-aside {
+  background-color: #000b26;
+}
+
+.link {
+  padding: 10px;
+  color: #ffffff;
+  display: flex;
+  background-color: #0053a9;
+}
+</style>
