@@ -3,7 +3,6 @@
     <el-image
       :src="imageUrl"
       fit="contain"
-      @click="handleImageClick"
       @wheel="handleWheel"
       :style="{
         transform: 'scale(' + scale + ')',
@@ -40,15 +39,10 @@ const imageUrl = ref("");
 const limit = ref(1);
 const scale = ref(1);
 
-const imageClick = (e, f) => {
-  e.stopPropagation();
-  console.log(e, f);
-};
-
 const handleChange = (uploadFile: UploadFile) => {
   console.log(uploadFile);
   if (uploadFile && uploadFile.hasOwnProperty("url")) {
-    imageUrl.value = uploadFile.url;
+    imageUrl.value = uploadFile.url || "";
   }
 };
 
@@ -59,7 +53,7 @@ const handleExceed: UploadProps["onExceed"] = (files) => {
   upload.value!.handleStart(file);
 };
 
-const handleWheel = (e) => {
+const handleWheel = (e: WheelEvent) => {
   let step = 0.2;
   if (e.deltaY < 0) {
     //向下滚动
@@ -76,10 +70,6 @@ const handleWheel = (e) => {
     }
   }
   return false; //阻止冒泡与默认事件
-};
-
-const handleImageClick = (e) => {
-  console.log(e);
 };
 </script>
 <style scope>
