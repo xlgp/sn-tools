@@ -1,18 +1,18 @@
 <template>
-  <p>
-    分隔符：
-    <el-radio-group v-model="delimiter">
-      <el-radio
-        v-for="radio in delimiterRadioList"
-        :label="radio.value"
-        size="large"
-        border
-        >{{ radio.label }}</el-radio
-      >
-    </el-radio-group>
-  </p>
   <el-row :gutter="20">
     <el-col :span="12">
+      <p>
+        分隔符：
+        <el-radio-group v-model="delimiter">
+          <el-radio
+            v-for="radio in delimiterRadioList"
+            :label="radio.value"
+            size="large"
+            border
+            >{{ radio.label }}</el-radio
+          >
+        </el-radio-group>
+      </p>
       <el-input
         v-model="textarea"
         :rows="20"
@@ -22,40 +22,32 @@
       />
     </el-col>
     <el-col :span="12">
-      <el-row :gutter="4">
-        <el-col :span="12">
-          <el-card @click="handleCopy(showComputedList)">
-            <template #header>
-              <h4>结果</h4>
-            </template>
-            <div v-for="(value, index) in showComputedList" :key="index">{{ value }}</div>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card @click="handleCopy(showList)">
-            <template #header>
-              <h4>结果</h4>
-            </template>
-            <div v-for="(value, index) in showList" :key="index">{{ value }}</div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-card @click="handleCopy(totalCount)">
-        <template #header>
-          <h4>总计</h4>
-        </template>
-        <div>{{ totalCount }}</div>
-      </el-card>
+      <p>
+        <el-button size="large" type="primary" @click="handleShowResult"
+          >计算结果</el-button
+        >
+      </p>
+      <div style="position: relative; height: calc(100% - 60px)">
+        <upload />
+        <result
+          class="result-wapper"
+          v-show="resultShow"
+          :total-count="totalCount"
+          :show-computed-list="showComputedList"
+          :show-list="showList"
+        />
+      </div>
     </el-col>
   </el-row>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
-import useClipboard from "vue-clipboard3";
-import { ElMessage } from "element-plus";
+import result from "./result.vue";
+import upload from "./upload.vue";
 
 const textarea = ref("");
+const resultShow = ref(false);
 
 const delimiterRadioList = [
   { label: "空格", value: " " },
@@ -63,8 +55,6 @@ const delimiterRadioList = [
 ];
 
 const delimiter = ref(delimiterRadioList[0].value); //分隔符
-
-const { toClipboard } = useClipboard();
 
 function splitValue(value, delimiter) {
   if (delimiter == delimiterRadioList[0].value) {
@@ -129,17 +119,16 @@ let totalCount = computed(() => {
   return total;
 });
 
-const handleCopy = async (value) => {
-  try {
-    let text = (Array.isArray(value) && value.join("\n")) || value.toString();
-    await toClipboard(text);
-    ElMessage({
-      message: "复制成功",
-      type: "success",
-    });
-  } catch (e) {
-    console.error(e);
-    ElMessage.error(e.message);
-  }
+const handleShowResult = () => {
+  resultShow.value = !resultShow.value;
 };
 </script>
+<style scope>
+.result-wapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+</style>
