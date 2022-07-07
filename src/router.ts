@@ -3,11 +3,13 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import TongJi from './page/tongji/TongJi.vue';
 import Test from './page/test/index.vue';
 import Volume from './page/volume/index.vue';
-import Index from './page/index/index.vue';
+import Layout from './layout/Layout.vue'
+import Dashboard from './page/dashboard/index.vue'
 
 const routes = [
   {
-    path: '/', name: '首页', component: Index, children: [
+    path: '/', name: '首页', component: Layout, children: [
+      { path: '/', name: '首页', component: Dashboard },
       { path: '/volume', name: '体积计算', component: Volume },
     ]
   },

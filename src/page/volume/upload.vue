@@ -1,13 +1,24 @@
 <template>
   <div class="upload-wapper">
-    <el-image
-      :src="imageUrl"
-      fit="contain"
+    <div
+      class="el-image"
       @wheel="handleWheel"
+      @mousemove="handleMousemove"
+      @mousedown="handleMousedown"
+      @mouseup="handleMouseup"
       :style="{
-        transform: 'scale(' + scale + ')',
+        transform:
+          'scale(' + scale + ') translate(' + translate.x + 'px, ' + translate.y + 'px)',
       }"
-    />
+    >
+      <img
+        :src="imageUrl"
+        @mousedown="handleImgMousedown"
+        @mousemove="handleImgMousemove"
+        class="el-image__inner"
+        style="object-fit: contain"
+      />
+    </div>
     <el-upload
       action="#"
       drag
@@ -24,7 +35,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { Delete, Download, Plus, ZoomIn } from "@element-plus/icons-vue";
 import { genFileId } from "element-plus";
 import type {
@@ -34,10 +45,18 @@ import type {
   UploadRawFile,
 } from "element-plus";
 
+import useMove from "./composable/useMove.ts";
+
 const upload = ref<UploadInstance>();
 const imageUrl = ref("");
 const limit = ref(1);
 const scale = ref(1);
+const imgRef = ref(null);
+const { handleMousedown, handleMousemove, handleMouseup, translate } = useMove();
+
+onMounted(() => {
+  console.log(imgRef);
+});
 
 const handleChange = (uploadFile: UploadFile) => {
   console.log(uploadFile);
@@ -51,6 +70,13 @@ const handleExceed: UploadProps["onExceed"] = (files) => {
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
   upload.value!.handleStart(file);
+};
+
+const handleImgMousedown = (e: MouseEvent) => {
+  e.preventDefault();
+};
+const handleImgMousemove = (e: MouseEvent) => {
+  return false;
 };
 
 const handleWheel = (e: WheelEvent) => {

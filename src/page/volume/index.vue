@@ -25,7 +25,7 @@
       <p>
         <el-button size="large" type="primary" @click="handleShowResult"
           >计算结果</el-button
-        >
+        ><small style="color: var(--el-text-color-disabled)">图片可缩放，也可移动</small>
       </p>
       <div style="position: relative; height: calc(100% - 60px)">
         <upload />
