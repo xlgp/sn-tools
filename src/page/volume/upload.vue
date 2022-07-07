@@ -1,24 +1,29 @@
 <template>
   <div class="upload-wapper">
-    <div
-      class="el-image"
-      @wheel="handleWheel"
-      @mousemove="handleMousemove"
-      @mousedown="handleMousedown"
-      @mouseup="handleMouseup"
-      :style="{
-        transform:
-          'scale(' + scale + ') translate(' + translate.x + 'px, ' + translate.y + 'px)',
-      }"
-    >
+    <div class="el-image">
       <img
         :src="imageUrl"
-        @mousedown="handleImgMousedown"
-        @mousemove="handleImgMousemove"
+        @wheel="handleWheel"
+        @mousemove="handleMousemove"
+        @mousedown="handleMousedown"
+        @mouseup="handleMouseup"
+        :style="{
+          transform:
+            'scale(' +
+            scale +
+            ') translate(' +
+            translate.x +
+            'px, ' +
+            translate.y +
+            'px)',
+          'object-fit': 'contain',
+        }"
         class="el-image__inner"
-        style="object-fit: contain"
       />
     </div>
+    <p class="tips" @click="handleInitImage">
+      图片还原<el-icon><Refresh /></el-icon>
+    </p>
     <el-upload
       action="#"
       drag
@@ -36,7 +41,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { Delete, Download, Plus, ZoomIn } from "@element-plus/icons-vue";
+import { Plus, Refresh } from "@element-plus/icons-vue";
 import { genFileId } from "element-plus";
 import type {
   UploadFile,
@@ -52,7 +57,7 @@ const imageUrl = ref("");
 const limit = ref(1);
 const scale = ref(1);
 const imgRef = ref(null);
-const { handleMousedown, handleMousemove, handleMouseup, translate } = useMove();
+const { handleMousedown, handleMousemove, handleMouseup, translate, init } = useMove();
 
 onMounted(() => {
   console.log(imgRef);
@@ -65,18 +70,16 @@ const handleChange = (uploadFile: UploadFile) => {
   }
 };
 
+const handleInitImage = () => {
+  scale.value = 1;
+  init();
+};
+
 const handleExceed: UploadProps["onExceed"] = (files) => {
   upload.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
   upload.value!.handleStart(file);
-};
-
-const handleImgMousedown = (e: MouseEvent) => {
-  e.preventDefault();
-};
-const handleImgMousemove = (e: MouseEvent) => {
-  return false;
 };
 
 const handleWheel = (e: WheelEvent) => {
@@ -104,6 +107,8 @@ const handleWheel = (e: WheelEvent) => {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  border: 1px solid #c4c6cb;
+  border-radius: 4px;
 }
 .el-upload {
   display: flex;
@@ -116,9 +121,15 @@ const handleWheel = (e: WheelEvent) => {
   display: flex;
   bottom: 0;
   right: 0;
-  /* z-index: -1; */
 }
 .el-upload-list {
   display: none;
+}
+.tips {
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  color: var(--el-color-info);
+  cursor: pointer;
 }
 </style>

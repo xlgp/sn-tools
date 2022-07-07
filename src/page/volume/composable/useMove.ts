@@ -1,4 +1,4 @@
-import { reactive, Ref } from 'vue'
+import { reactive } from 'vue'
 
 export default () => {
 
@@ -15,6 +15,7 @@ export default () => {
         moving = true;
         point.x = e.clientX;
         point.y = e.clientY;
+        e.preventDefault();
     };
 
     const handleMousemove = (e: MouseEvent) => {
@@ -27,10 +28,14 @@ export default () => {
 
     const handleMouseup = (e: MouseEvent) => {
         moving = false;
-
     };
 
+    const init = () => {
+        translate.x = 0;
+        translate.y = 0;
+    }
+
     return {
-        handleMousedown, handleMousemove, handleMouseup, translate
+        handleMousedown, handleMousemove, handleMouseup, translate, init
     }
 }
