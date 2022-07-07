@@ -45,7 +45,7 @@ import type {
   UploadRawFile,
 } from "element-plus";
 
-import useMove from "./composable/useMove.ts";
+import useMove from "./composable/useMove";
 
 const upload = ref<UploadInstance>();
 const imageUrl = ref("");
