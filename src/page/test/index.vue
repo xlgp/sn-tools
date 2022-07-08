@@ -3,10 +3,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-
 let fileRef = ref(null);
-let change = (e:Event) => {
-  
-};
+let change = (e: Event) => {};
 </script>

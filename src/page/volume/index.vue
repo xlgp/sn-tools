@@ -43,7 +43,6 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
 import result from "./result.vue";
 import upload from "./upload.vue";
 

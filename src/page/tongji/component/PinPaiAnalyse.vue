@@ -3,7 +3,14 @@
     <template #header>
       <span>品牌构成分析</span>
     </template>
-    <el-table :data="tableData" id="pinpaiTable"  data-clipboard-target="#pinpaiCard" style="width: 100%" size="small" show-summary>
+    <el-table
+      :data="tableData"
+      id="pinpaiTable"
+      data-clipboard-target="#pinpaiCard"
+      style="width: 100%"
+      size="small"
+      show-summary
+    >
       <el-table-column type="index" label="序号" />
       <el-table-column prop="pinpai_leibie" label="类型" />
       <el-table-column prop="total" label="数量（份）" />
@@ -17,11 +24,9 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, inject, onMounted } from "vue";
-import ClipboardJS from 'clipboard';
-import usePinPaiAnalyse, {
-  PinPaiAnalyseType,
-} from "../composable/usePinPaiAnalyse";
+import { ComputedRef } from "vue";
+import ClipboardJS from "clipboard";
+import usePinPaiAnalyse, { PinPaiAnalyseType } from "../composable/usePinPaiAnalyse";
 
 export default defineComponent({
   name: "PinPaiAnalyse",
@@ -35,8 +40,8 @@ export default defineComponent({
       return Object.values(pinPaiAnalyseResult.value);
     });
 
-    onMounted(()=>{
-      new ClipboardJS('#pinpaiTable');
+    onMounted(() => {
+      new ClipboardJS("#pinpaiTable");
     });
     return {
       tableData,

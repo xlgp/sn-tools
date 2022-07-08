@@ -1,4 +1,4 @@
-import { computed, ComputedRef } from "vue";
+import {  ComputedRef } from "vue";
 import { DataItemType } from "../data";
 
 export default (dataList: ComputedRef<DataItemType[]>,

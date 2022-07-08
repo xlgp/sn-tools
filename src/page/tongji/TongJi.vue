@@ -5,12 +5,7 @@
         <th v-for="(value, key) in headTableItem" :key="key">{{ value }}</th>
       </tr>
     </table>
-    <el-input
-      v-model="content"
-      :rows="22"
-      type="textarea"
-      placeholder="请复制数据至此"
-    />
+    <el-input v-model="content" :rows="22" type="textarea" placeholder="请复制数据至此" />
   </el-row>
   <el-row>
     <no-pin-pai-list></no-pin-pai-list>
@@ -28,7 +23,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, ref } from "vue";
 import useHeadTable from "./composable/useHeadTable";
 import useDataList from "./composable/useDataList";
 import TotalAnalyse from "./component/TotalAnalyse.vue";
@@ -49,13 +43,14 @@ export default defineComponent({
   setup() {
     const headTableItem = useHeadTable();
     const content = ref<string>("");
-    const { dataList, totalAmount, chengJiaoData, noPinPaiDataList } =
-      useDataList(content);
+    const { dataList, totalAmount, chengJiaoData, noPinPaiDataList } = useDataList(
+      content
+    );
 
     provide("dataList", dataList);
     provide("totalAmount", totalAmount);
     provide("chengJiaoData", chengJiaoData);
-    provide('noPinPaiList', noPinPaiDataList);
+    provide("noPinPaiList", noPinPaiDataList);
 
     return {
       headTableItem,

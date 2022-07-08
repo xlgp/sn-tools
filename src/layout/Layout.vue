@@ -3,8 +3,7 @@
     <el-header>小工具</el-header>
     <el-container>
       <el-aside width="200px">
-        <router-link to="/" class="link">首页</router-link>
-        <router-link to="/volume" class="link">体积计算</router-link>
+        <aside-router />
       </el-aside>
       <el-main>
         <router-view></router-view>

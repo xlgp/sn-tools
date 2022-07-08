@@ -40,9 +40,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
 import { Plus, Refresh } from "@element-plus/icons-vue";
-import { genFileId } from "element-plus";
 import type {
   UploadFile,
   UploadInstance,
@@ -73,6 +71,10 @@ const handleChange = (uploadFile: UploadFile) => {
 const handleInitImage = () => {
   scale.value = 1;
   init();
+};
+
+const genFileId = () => {
+  return +new Date();
 };
 
 const handleExceed: UploadProps["onExceed"] = (files) => {

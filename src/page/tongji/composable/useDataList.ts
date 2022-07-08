@@ -1,5 +1,6 @@
-import { computed, Ref } from "vue";
+
 import pinpaiList from "@/data/pinpai";
+import { Ref } from "vue";
 import { DataItemType } from "../data";
 
 export default (content: Ref<string>) => {

@@ -4,7 +4,7 @@
       <el-col :span="12">
         <el-card @click="handleCopy(showComputedList)">
           <template #header>
-            <h4>结果</h4>
+            <span>结果</span>
           </template>
           <div v-for="(value, index) in showComputedList" :key="index">{{ value }}</div>
         </el-card>
@@ -12,7 +12,7 @@
       <el-col :span="12">
         <el-card @click="handleCopy(showList)">
           <template #header>
-            <h4>结果</h4>
+            <span>结果</span>
           </template>
           <div v-for="(value, index) in showList" :key="index">{{ value }}</div>
         </el-card>
@@ -20,7 +20,7 @@
     </el-row>
     <el-card @click="handleCopy(totalCount)">
       <template #header>
-        <h4>总计</h4>
+        <span>总计</span>
       </template>
       <div>{{ totalCount }}</div>
     </el-card>
@@ -28,8 +28,8 @@
 </template>
 
 <script setup>
-import useClipboard from "vue-clipboard3";
 import { ElMessage } from "element-plus";
+import useClipboard from "vue-clipboard3";
 
 const { showComputedList, totalCount, showList } = defineProps({
   showComputedList: Array,
@@ -49,7 +49,7 @@ const handleCopy = async (value) => {
     });
   } catch (e) {
     console.error(e);
-    ElMessage.error(e.message);
+    ElMessage.error(e.message || "真奇怪，不知道哪里错了。");
   }
 };
 </script>

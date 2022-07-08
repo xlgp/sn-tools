@@ -3,9 +3,7 @@
     <template #header>
       <span>无品牌类型</span>
     </template>
-    <el-tag v-for="(item, index) in noPinPaiList" :key="index">{{
-      item.pinpai
-    }}</el-tag>
+    <el-tag v-for="(item, index) in noPinPaiList" :key="index">{{ item.pinpai }}</el-tag>
   </el-card>
 </template>
 
@@ -16,8 +14,7 @@
 </style>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, inject } from "vue";
-
+import { ComputedRef } from "vue";
 export default defineComponent({
   name: "NoPinPaiList",
   setup() {
