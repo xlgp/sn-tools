@@ -23,8 +23,9 @@
     </el-col>
     <el-col :span="12">
       <p>
-        <el-button size="large" type="primary" @click="handleShowResult"
-          >计算结果</el-button
+        <el-button size="large" :type="showResultType" @click="handleShowResult">{{
+          showResultText
+        }}</el-button
         ><small style="color: var(--el-text-color-disabled)">图片可缩放，也可移动</small>
       </p>
       <div style="position: relative; height: calc(100% - 60px)">
@@ -48,6 +49,12 @@ import upload from "./upload.vue";
 
 const textarea = ref("");
 const resultShow = ref(false);
+const showResultText = computed(() => {
+  return (resultShow.value && "隐藏计算结果") || "显示计算结果";
+});
+const showResultType = computed(() => {
+  return (resultShow.value && "info") || "primary";
+});
 
 const delimiterRadioList = [
   { label: "空格", value: " " },
