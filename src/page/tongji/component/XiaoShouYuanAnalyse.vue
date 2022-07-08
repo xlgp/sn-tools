@@ -57,7 +57,6 @@ export default defineComponent({
             result[e.xiaoshouyuan].chengJiaoTotal += (e.isChengJiao && 1) || 0;
           }
         });
-        console.log(result);
         return Object.values(result);
       }
       return [] as ItemType[];

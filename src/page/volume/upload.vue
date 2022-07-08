@@ -57,12 +57,7 @@ const scale = ref(1);
 const imgRef = ref(null);
 const { handleMousedown, handleMousemove, handleMouseup, translate, init } = useMove();
 
-onMounted(() => {
-  console.log(imgRef);
-});
-
 const handleChange = (uploadFile: UploadFile) => {
-  console.log(uploadFile);
   if (uploadFile && uploadFile.hasOwnProperty("url")) {
     imageUrl.value = uploadFile.url || "";
   }
