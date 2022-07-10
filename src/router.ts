@@ -5,6 +5,7 @@ import Test from './page/test/index.vue';
 import Volume from './page/volume/index.vue';
 import Layout from './layout/Layout.vue'
 import Dashboard from './page/dashboard/index.vue'
+import NotFound from './page/404.vue'
 
 const routes = [
   {
@@ -12,8 +13,10 @@ const routes = [
       { path: '/', name: '首页', component: Dashboard },
       { path: '/volume', name: '体积计算', component: Volume },
       { path: '/tongji', name: '品牌统计', component: TongJi },
+      { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { menuHidden: true } }
     ]
-  }]
+  },
+]
 
 const router = createRouter({
   // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
