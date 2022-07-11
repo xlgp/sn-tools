@@ -1,28 +1,24 @@
 <template>
   <div>
-    <el-row :gutter="4">
-      <el-col :span="12">
-        <el-card @click="handleCopy(showComputedList)">
-          <template #header>
-            <span>结果</span>
-          </template>
-          <div v-for="(value, index) in showComputedList" :key="index">{{ value }}</div>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card @click="handleCopy(showList)">
-          <template #header>
-            <span>结果</span>
-          </template>
-          <div v-for="(value, index) in showList" :key="index">{{ value }}</div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-card @click="handleCopy(totalCount)">
+    <el-card>
+      <el-row :gutter="10">
+        <el-col :span="10"><slot></slot> </el-col>
+        <el-col :span="14" @click="handleCopy(totalCount)">
+          总计：{{ totalCount }}
+        </el-col>
+      </el-row>
+    </el-card>
+    <el-card @click="handleCopy(showComputedList)">
       <template #header>
-        <span>总计</span>
+        <span>计算后结果</span>
       </template>
-      <div>{{ totalCount }}</div>
+      <div v-for="(value, index) in showComputedList" :key="index">{{ value }}</div>
+    </el-card>
+    <el-card @click="handleCopy(showList)">
+      <template #header>
+        <span>结果</span>
+      </template>
+      <div v-for="(value, index) in showList" :key="index">{{ value }}</div>
     </el-card>
   </div>
 </template>
@@ -31,10 +27,11 @@
 import { ElMessage } from "element-plus";
 import useClipboard from "vue-clipboard3";
 
-const { showComputedList, totalCount, showList } = defineProps({
+const { showComputedList, totalCount, showList, region } = defineProps({
   showComputedList: Array,
   totalCount: [Number, String],
   showList: Array,
+  region: String,
 });
 
 const { toClipboard } = useClipboard();

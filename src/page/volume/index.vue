@@ -1,18 +1,18 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="12">
-      <p>
-        分隔符：
+    <el-col :span="4">
+      <fieldset>
+        <legend>分隔符：</legend>
         <el-radio-group v-model="delimiter">
           <el-radio
             v-for="radio in delimiterRadioList"
             :label="radio.value"
-            size="large"
+            size="small"
             border
             >{{ radio.label }}</el-radio
           >
         </el-radio-group>
-      </p>
+      </fieldset>
       <el-input
         v-model="textarea"
         :rows="20"
@@ -21,23 +21,25 @@
         style="font-size: large"
       />
     </el-col>
-    <el-col :span="12">
+    <el-col :span="8">
       <p>
-        <el-button size="large" :type="showResultType" @click="handleShowResult">{{
-          showResultText
-        }}</el-button
-        ><small style="color: var(--el-text-color-disabled)">图片可缩放，也可移动</small>
+        <el-button type="primary" @click="handleAutoCopy" round
+          >自动复制到在线Excel</el-button
+        >
       </p>
-      <div style="position: relative; height: calc(100% - 60px)">
-        <upload />
-        <result
-          class="result-wapper"
-          v-show="resultShow"
-          :total-count="totalCount"
-          :show-computed-list="showComputedList"
-          :show-list="showList"
-        />
-      </div>
+      <result
+        :total-count="totalCount"
+        :show-computed-list="showComputedList"
+        :show-list="showList"
+        :region="region"
+      >
+        <el-input v-model="region" placeholder="请输入地区">
+          <template #prepend>地区</template>
+        </el-input>
+      </result>
+    </el-col>
+    <el-col :span="12">
+      <upload />
     </el-col>
   </el-row>
 </template>
@@ -47,18 +49,13 @@ import result from "./result.vue";
 import upload from "./upload.vue";
 
 const textarea = ref("");
-const resultShow = ref(false);
-const showResultText = computed(() => {
-  return (resultShow.value && "隐藏计算结果") || "显示计算结果";
-});
-const showResultType = computed(() => {
-  return (resultShow.value && "info") || "primary";
-});
 
 const delimiterRadioList = [
   { label: "空格", value: " " },
   { label: "X;", value: "X" },
 ];
+
+const region = ref("");
 
 const delimiter = ref(delimiterRadioList[0].value); //分隔符
 
@@ -125,9 +122,7 @@ let totalCount = computed(() => {
   return total;
 });
 
-const handleShowResult = () => {
-  resultShow.value = !resultShow.value;
-};
+const handleAutoCopy = () => {};
 </script>
 <style scope>
 .result-wapper {
@@ -136,5 +131,15 @@ const handleShowResult = () => {
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+fieldset {
+  border-width: 1px;
+  border-color: #fff;
+  border-radius: 0px;
+  margin-bottom: 1em;
+}
+legend {
+  color: var(--el-text-color-secondary);
 }
 </style>

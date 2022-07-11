@@ -21,8 +21,11 @@
         class="el-image__inner"
       />
     </div>
-    <p class="tips" @click="handleInitImage">
-      图片还原<el-icon><Refresh /></el-icon>
+    <p class="tips">
+      <small style="color: var(--el-text-color-disabled)">图片可缩放，也可移动</small>
+      <span @click="handleInitImage"
+        >图片还原<el-icon><Refresh /></el-icon
+      ></span>
     </p>
     <el-upload
       action="#"
@@ -127,6 +130,9 @@ const handleWheel = (e: WheelEvent) => {
   bottom: 0;
   right: 20px;
   color: var(--el-color-info);
+}
+.tips span {
   cursor: pointer;
+  margin-left: 10px;
 }
 </style>
