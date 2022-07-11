@@ -22,11 +22,6 @@
       />
     </el-col>
     <el-col :span="8">
-      <p>
-        <el-button type="primary" @click="handleAutoCopy" round
-          >自动复制到在线Excel</el-button
-        >
-      </p>
       <result
         :total-count="totalCount"
         :show-computed-list="showComputedList"
@@ -50,20 +45,20 @@ import upload from "./upload.vue";
 
 const textarea = ref("");
 
-const delimiterRadioList = [
-  { label: "空格", value: " " },
-  { label: "X;", value: "X" },
-];
+const delimiterRadioList = {
+  SPACE: { label: "空格", value: " " },
+  X: { label: "X;", value: "X" },
+};
 
 const region = ref("");
 
-const delimiter = ref(delimiterRadioList[0].value); //分隔符
+const delimiter = ref(delimiterRadioList.SPACE.value); //分隔符
 
 function splitValue(value, delimiter) {
-  if (delimiter == delimiterRadioList[0].value) {
+  if (delimiter == delimiterRadioList.SPACE.value) {
     //空格
     return value.trim().split(delimiter);
-  } else if (delimiter == delimiterRadioList[1].value) {
+  } else if (delimiter == delimiterRadioList.X.value) {
     let text = value.trim().split(delimiter);
     let t = text[2].split(";");
     return [text[0], text[1], t[0], t[1].substring(0, t[1].length - 1)];
@@ -78,6 +73,11 @@ let textareaList = computed(() => {
   let list = value.split("\n");
   if (!list || list.length == 0) {
     return [];
+  }
+  if (list[0].includes(delimiterRadioList.X.value)) {
+    delimiter.value = delimiterRadioList.X.value;
+  } else {
+    delimiter.value = delimiterRadioList.SPACE.value;
   }
   return list.map((item) => {
     // 长 宽 高 数量
@@ -121,8 +121,6 @@ let totalCount = computed(() => {
   });
   return total;
 });
-
-const handleAutoCopy = () => {};
 </script>
 <style scope>
 .result-wapper {

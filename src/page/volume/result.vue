@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-card>
+      <template #header>
+        <span style="color: var(--el-color-info)">点击可自动复制</span>
+      </template>
       <el-row :gutter="10">
         <el-col :span="10"><slot></slot> </el-col>
         <el-col :span="14" @click="handleCopy(totalCount)">
