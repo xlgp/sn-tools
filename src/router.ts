@@ -23,8 +23,7 @@ const routes = [
 
       { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { menuHidden: true } }
     ],
-  },
-  { path: '/video', name: "video", component: () => import('./page/video/index.vue') }
+  }
 ]
 
 const router = createRouter({
