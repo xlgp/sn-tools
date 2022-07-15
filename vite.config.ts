@@ -13,7 +13,7 @@ import {
 // https://vitejs.dev/config/
 export default defineConfig({
   server: { port: 3333 },
-  base:'/sn-tools/',
+  base: '/sn-tools/',
   resolve: {
     alias: {
       "@": resolve(__dirname, 'src'), // 路径别名
@@ -44,9 +44,9 @@ export default defineConfig({
         /\.vue\?vue/,
         /\.md$/,
       ],
-      dirs:['./src/components/*'],
+      dirs: ['./src/components/*'],
       dts: './src/auto-imports.d.ts',
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', 'vue-router', 'pinia'],
       resolvers: [ElementPlusResolver()],
     }),
     Components({

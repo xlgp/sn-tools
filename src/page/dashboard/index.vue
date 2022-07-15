@@ -12,5 +12,11 @@
         <router-link to="/tongji">品牌统计</router-link>
       </el-card>
     </el-col>
+    <el-col :span="6">
+      <el-card>
+        <template #header>鼎能面单</template>
+        <router-link to="/dingnengorder">鼎能面单</router-link>
+      </el-card>
+    </el-col>
   </el-row>
 </template>

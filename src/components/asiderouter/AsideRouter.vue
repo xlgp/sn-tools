@@ -4,7 +4,7 @@
     :to="router.path"
     :key="router.path"
     class="link"
-    >{{ router.name }}</router-link
+    >{{ router.meta.title }}</router-link
   >
 </template>
 
