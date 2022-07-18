@@ -4,7 +4,7 @@ export interface GoodsItemType {
     text: string
 }
 
-export const goodsList: GoodsItemType[] = [
+const goodsList: GoodsItemType[] = [
     {
         key: 'zhixiang',
         value: 0,
@@ -26,3 +26,8 @@ export const goodsList: GoodsItemType[] = [
         text: '其他'
     }
 ];
+
+export const getGoodsList = () => {
+    return Object.assign([] as unknown as GoodsItemType, goodsList);
+}
+

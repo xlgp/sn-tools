@@ -1,10 +1,6 @@
 <template>
   <el-config-provider :locale="locale" :z-index="zIndex">
-    <router-view v-slot="{ Component }">
-      <transition :name="transitionName" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <router-view />
   </el-config-provider>
 </template>
 <script lang="ts">
@@ -16,7 +12,6 @@ export default defineComponent({
     return {
       zIndex: 3000,
       locale: zhCn,
-      transitionName: "fade",
     };
   },
 });

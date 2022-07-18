@@ -17,12 +17,13 @@ const routes = [
       {
         path: 'dingnengorder', name: 'dingnengOrder', redirect: '/dingnengorder/create', meta: { title: "鼎能面单" }, children: [
           { path: 'create', name: 'dingnengOrderCreate', component: DingnengOrderCreate, meta: { menuHidden: true }, },
-          { path: 'print', name: 'dingnengOrderPrint', component: DingnengOrderPrint, meta: { menuHidden: true }, },
         ]
       },
-
       { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { menuHidden: true } }
     ],
+  },
+  {
+    path: '/dingnengorder/print', name: 'dingnengOrderPrint', component: DingnengOrderPrint, meta: { menuHidden: true },
   }
 ]
 
