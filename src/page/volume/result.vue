@@ -11,18 +11,24 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-card @click="handleCopy(showComputedList)">
-      <template #header>
-        <span>计算后结果</span>
-      </template>
-      <div v-for="(value, index) in showComputedList" :key="index">{{ value }}</div>
-    </el-card>
-    <el-card @click="handleCopy(showList)">
-      <template #header>
-        <span>结果</span>
-      </template>
-      <div v-for="(value, index) in showList" :key="index">{{ value }}</div>
-    </el-card>
+    <el-row>
+      <el-col :span="16">
+        <el-card @click="handleCopy(showComputedList)">
+          <template #header>
+            <span>计算后结果</span>
+          </template>
+          <div v-for="(value, index) in showComputedList" :key="index">{{ value }}</div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card @click="handleCopy(showList)">
+          <template #header>
+            <span>结果</span>
+          </template>
+          <div v-for="(value, index) in showList" :key="index">{{ value }}</div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 

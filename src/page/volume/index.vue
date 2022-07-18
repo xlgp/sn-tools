@@ -21,7 +21,7 @@
         style="font-size: large"
       />
     </el-col>
-    <el-col :span="8">
+    <el-col :span="10">
       <result
         :total-count="totalCount"
         :show-computed-list="showComputedList"
@@ -33,7 +33,7 @@
         </el-input>
       </result>
     </el-col>
-    <el-col :span="12">
+    <el-col :span="10">
       <upload />
     </el-col>
   </el-row>
