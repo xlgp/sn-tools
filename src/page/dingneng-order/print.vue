@@ -5,7 +5,7 @@
       <span>杭州鼎能供应链发运单</span>
     </div>
     <p style="margin: 10px 0 0 0">运单号：{{ data.dn_order_id }}</p>
-    <div style="text-align: center"><barcode :code="code" /></div>
+    <div style="text-align: center"><barcode :code="data.dn_order_id" /></div>
     <table>
       <tbody>
         <tr>
@@ -86,10 +86,6 @@ const c_recipient_time = computed(() => {
   let d = new Date(data.recipient_time);
   return d.getFullYear() + "年" + (d.getMonth() + 1) + "月" + d.getDate() + "日";
 });
-
-const code = ref("DN165761364925383");
-
-console.log(store, store.total_count);
 
 const goBack = () => {
   loading.value = true;

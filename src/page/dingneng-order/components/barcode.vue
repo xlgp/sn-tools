@@ -10,14 +10,11 @@ const { code } = defineProps({
 
 const barcodeRef = ref<HTMLElement | null>(null);
 
-watch(
-  () => code,
-  (code) => {
-    if (barcodeRef.value) {
-      init(barcodeRef.value, code);
-    }
+onMounted(() => {
+  if (barcodeRef.value) {
+    init(barcodeRef.value, code);
   }
-);
+});
 
 const init = (node: HTMLElement, text: string) => {
   JsBarcode(node, text, {
