@@ -3,8 +3,9 @@
     "version": "0.0.3",
     "scripts": {
         "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
-        "serve": "vite preview"
+        "build": "vue-tsc --noEmit && vite build --base=/sn-tools/",
+        "serve": "vite preview",
+        "ext":"vue-tsc --noEmit && vite build"
     },
     "dependencies": {
         "element-plus": "^2.1.5",
