@@ -1,5 +1,17 @@
 <template>
   <el-row :gutter="20">
+    <el-col :span="10">
+      <result
+        :total-count="totalCount"
+        :show-computed-list="showComputedList"
+        :show-list="showList"
+        :region="region"
+      >
+        <el-input v-model="region" placeholder="请输入地区">
+          <template #prepend>地区</template>
+        </el-input>
+      </result>
+    </el-col>
     <el-col :span="4">
       <fieldset>
         <legend>分隔符：</legend>
@@ -20,18 +32,6 @@
         placeholder="Please input"
         style="font-size: large"
       />
-    </el-col>
-    <el-col :span="10">
-      <result
-        :total-count="totalCount"
-        :show-computed-list="showComputedList"
-        :show-list="showList"
-        :region="region"
-      >
-        <el-input v-model="region" placeholder="请输入地区">
-          <template #prepend>地区</template>
-        </el-input>
-      </result>
     </el-col>
     <el-col :span="10">
       <upload />
