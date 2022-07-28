@@ -61,7 +61,7 @@ function splitValue(value, delimiter) {
   } else if (delimiter == delimiterRadioList.X.value) {
     let text = value.trim().split(delimiter);
     let t = text[2].split(";");
-    return [text[0], text[1], t[0], t[1].substring(0, t[1].length - 1)];
+    return [text[0], text[1], t[0], t[1]];
   }
 }
 
@@ -94,7 +94,7 @@ let textareaList = computed(() => {
 let showList = computed(() => {
   let text = "";
   return textareaList.value.map((item) => {
-    return item.len + "X" + item.width + "X" + item.height + ";" + item.count + ",";
+    return item.len + "X" + item.width + "X" + item.height + ";" + item.count;
   });
 });
 
