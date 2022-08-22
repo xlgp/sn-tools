@@ -2,7 +2,15 @@
   <div>
     <el-card>
       <template #header>
-        <span style="color: var(--el-color-info)">点击可自动复制</span>
+        <div class="card-header">
+          <span style="color: var(--el-color-info)">点击可自动复制</span>
+          <el-link
+            type="primary"
+            href="https://docs.qq.com/sheet/DS0FkVVhwd29KdHNk?tab=zcwot8"
+            target="_blank"
+            >打开腾讯文档</el-link
+          >
+        </div>
       </template>
       <el-row :gutter="10">
         <el-col :span="10"><slot></slot> </el-col>
@@ -32,7 +40,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ElMessage } from "element-plus";
 import useClipboard from "vue-clipboard3";
 
@@ -45,17 +53,25 @@ const { showComputedList, totalCount, showList, region } = defineProps({
 
 const { toClipboard } = useClipboard();
 
-const handleCopy = async (value) => {
+const handleCopy = async (value: any) => {
   try {
+    if (value == undefined) return;
     let text = (Array.isArray(value) && value.join("\n")) || value.toString();
     await toClipboard(text);
     ElMessage({
       message: "复制成功",
       type: "success",
     });
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
     ElMessage.error(e.message || "真奇怪，不知道哪里错了。");
   }
 };
 </script>
+<style scoped>
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

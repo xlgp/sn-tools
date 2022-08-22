@@ -29,7 +29,7 @@
         v-model="textarea"
         :rows="20"
         type="textarea"
-        placeholder="Please input"
+        :placeholder="textareaPlaceholder"
         style="font-size: large"
       />
     </el-col>
@@ -39,11 +39,23 @@
   </el-row>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import result from "./result.vue";
 import upload from "./upload.vue";
 
 const textarea = ref("");
+
+const textareaPlaceholder = ref(
+  [
+    "请在此输入输入",
+    "一行一组",
+    "以空格相格",
+    "例如：",
+    "123 32 23 3",
+    "56 65 45 3",
+    "234 42 34 6",
+  ].join("\n")
+);
 
 const delimiterRadioList = {
   SPACE: { label: "空格", value: " " },
@@ -54,7 +66,7 @@ const region = ref("");
 
 const delimiter = ref(delimiterRadioList.SPACE.value); //分隔符
 
-function splitValue(value, delimiter) {
+function splitValue(value: any, delimiter: string) {
   if (delimiter == delimiterRadioList.SPACE.value) {
     //空格
     return value.trim().split(delimiter);
@@ -92,7 +104,6 @@ let textareaList = computed(() => {
 });
 
 let showList = computed(() => {
-  let text = "";
   return textareaList.value.map((item) => {
     return item.len + "X" + item.width + "X" + item.height + ";" + item.count;
   });
