@@ -4,12 +4,7 @@
       <template #header>
         <div class="card-header">
           <span style="color: var(--el-color-info)">点击可自动复制</span>
-          <el-link
-            type="primary"
-            href="https://docs.qq.com/sheet/DS0FkVVhwd29KdHNk?tab=zcwot8"
-            target="_blank"
-            >打开腾讯文档</el-link
-          >
+          <el-link type="primary" :href="qqDocLink" target="_blank">打开腾讯文档</el-link>
         </div>
       </template>
       <el-row :gutter="10">
@@ -52,6 +47,8 @@ const { showComputedList, totalCount, showList, region } = defineProps({
 });
 
 const { toClipboard } = useClipboard();
+
+const qqDocLink = ref("https://docs.qq.com/sheet/DS0FkVVhwd29KdHNk");
 
 const handleCopy = async (value: any) => {
   try {
