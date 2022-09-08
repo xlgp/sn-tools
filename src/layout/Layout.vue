@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>小工具</el-header>
+    <el-header>小工具<icon-gitee /></el-header>
     <el-container>
       <el-aside width="200px">
         <aside-router />
