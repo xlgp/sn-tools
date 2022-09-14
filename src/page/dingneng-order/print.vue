@@ -1,11 +1,13 @@
 <template>
-  <div class="order-wapper print">
+  <div class="order-wapper print" :style="{ fontSize: fontSize + 'em' }">
     <div class="order-header">
       <img height="40" width="40" src="/img/dingneng.png" />
       <span>杭州鼎能供应链发运单</span>
     </div>
     <p style="margin: 10px 0 0 0">运单号：{{ data.dn_order_id }}</p>
-    <div style="text-align: center"><barcode :code="data.dn_order_id" /></div>
+    <div style="text-align: center">
+      <barcode :code="data.dn_order_id" />
+    </div>
     <table>
       <tbody>
         <tr>
@@ -23,20 +25,14 @@
           <td colspan="5">收货地址：{{ data.address }}</td>
         </tr>
         <tr>
-          <td colspan="5" style="text-align: center; padding: 10px 0px; font-size: 18px">
-            货物详情
-          </td>
+          <td colspan="5" style="text-align: center; padding: 10px 0px; font-size: 1.12em">货物详情</td>
         </tr>
         <tr>
-          <td class="border-right" v-for="item in data.goodsList" :key="item.key">
-            {{ item.text }}
-          </td>
+          <td class="border-right" v-for="item in data.goodsList" :key="item.key">{{ item.text }}</td>
           <td style="text-align: center">合计</td>
         </tr>
         <tr>
-          <td class="border-right" v-for="item in data.goodsList" :key="item.key">
-            {{ item.value }}
-          </td>
+          <td class="border-right" v-for="item in data.goodsList" :key="item.key">{{ item.value }}</td>
           <td style="text-align: center">{{ store.total_count }}</td>
         </tr>
         <tr>
@@ -59,11 +55,23 @@
       </tbody>
     </table>
   </div>
-  <div class="print-btn-wapper">
-    <el-button type="primary" class="print-btn" @click="handlePrint">打印</el-button>
-  </div>
-  <div class="print-btn-wapper">
-    <el-button @click="goBack" :loading="loading">返回</el-button>
+  <div class="other-wapper">
+    <div class="print-btn-wapper">
+      <el-input-number
+        v-model="fontSize"
+        :precision="2"
+        :step="0.1"
+        :min="1"
+        :max="2"
+        style="width:200px;margin-left: 74px;"
+      />
+    </div>
+    <div class="print-btn-wapper">
+      <el-button type="primary" class="print-btn" @click="handlePrint">打印</el-button>
+    </div>
+    <div class="print-btn-wapper">
+      <el-button @click="goBack" :loading="loading">返回</el-button>
+    </div>
   </div>
 </template>
 
@@ -77,6 +85,8 @@ const store = useStore();
 const data = store.$state;
 
 const loading = ref(false);
+
+const fontSize = ref(1);
 
 const c_send_time = computed(() => {
   let d = new Date(data.send_time);
@@ -96,7 +106,7 @@ const handlePrint = () => {
   window.print();
 };
 </script>
-<style scope>
+<style scoped>
 @media print {
   body {
     -webkit-print-color-adjust: exact;
@@ -129,7 +139,7 @@ const handlePrint = () => {
   border-bottom: 1px solid;
 }
 .order-header span {
-  font-size: 20px;
+  font-size: 1.17em;
   line-height: 40px;
   font-weight: bold;
   margin-left: -40px;
@@ -156,11 +166,32 @@ td {
   text-align: center;
 }
 .print-btn-wapper {
-  text-align: center;
-  margin-top: 50px;
+  margin-bottom: 30px;
 }
 .print-btn {
   width: 400px;
   height: 40px;
+}
+
+.other-wapper {
+  position: absolute;
+  right: 30px;
+  top: 100px;
+}
+
+.el-input-number::before {
+  content: "\5b57\4f53\5927\5c0f";
+  position: absolute;
+  left: -74px;
+  z-index: 1;
+  color: #606266;
+}
+.el-input-number::after {
+  content: "em";
+  position: absolute;
+  right: 40px;
+  top: 0px;
+  z-index: 1;
+  color: #606266;
 }
 </style>
