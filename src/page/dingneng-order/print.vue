@@ -77,14 +77,11 @@
 
 <script setup lang="ts">
 import { useStore } from "./stores/order";
-import { useStore as useSettingsStore } from "./stores/settings";
 import barcode from "./components/barcode.vue";
 const route = useRoute();
 const router = useRouter();
 
 const store = useStore();
-const settingsStore = useSettingsStore();
-settingsStore.init();
 
 const data = store.$state;
 
