@@ -10,8 +10,7 @@
               placeholder="请输入发货人"
               clearable
               :style="{ width: '100%' }"
-            >
-            </el-input>
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -41,8 +40,7 @@
               placeholder="请输入收货人"
               clearable
               :style="{ width: '100%' }"
-            >
-            </el-input>
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -62,8 +60,7 @@
           placeholder="请输入收货地址"
           clearable
           :style="{ width: '100%' }"
-        >
-        </el-input>
+        ></el-input>
       </el-form-item>
       <el-row>
         <el-col :span="12" v-for="(item, index) in formData.goodsList" :key="item.key">
@@ -73,8 +70,7 @@
               :placeholder="'请输入' + item.text"
               :step="1"
               :max="1000"
-            >
-            </el-input-number>
+            ></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -87,8 +83,7 @@
               placeholder="请输入发运时间"
               clearable
               value-format="x"
-            >
-            </el-date-picker>
+            ></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -99,8 +94,7 @@
               placeholder="请输入收货时间"
               clearable
               value-format="x"
-            >
-            </el-date-picker>
+            ></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -119,11 +113,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="总重量" prop="total_weight">
-            <el-input
-              v-model.number="formData.total_weight"
-              placeholder="请输入总重量"
-              clearable
-            >
+            <el-input v-model.number="formData.total_weight" placeholder="请输入总重量" clearable>
               <template #append>KG</template>
             </el-input>
           </el-form-item>
@@ -135,8 +125,7 @@
           placeholder="请输入提货人"
           clearable
           :style="{ width: '100%' }"
-        >
-        </el-input>
+        ></el-input>
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input
@@ -154,7 +143,7 @@
     </el-form>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import rules from "./composable/useOrderRules";
 import { useStore } from "./stores/order";
 
@@ -167,9 +156,9 @@ const router = useRouter();
 
 const submitForm = async () => {
   if (!elFormRef) return;
-  await elFormRef.value.validate((valid) => {
+  await elFormRef.value.validate((valid: any) => {
     if (!valid) return;
-    console.log(formData);
+    store.saveToStorage();
     router.push({
       name: "dingnengOrderPrint",
     });

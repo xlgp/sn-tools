@@ -1,13 +1,13 @@
 {
     "name": "sn-tools",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc --noEmit && vite build --base=/sn-tools/",
         "serve": "vite preview",
-        "push:gepage":"git subtree push --prefix=dist gitee ge-pages",
-        "ext":"vue-tsc --noEmit && vite build",
-        "push:ext":"git subtree push --prefix=dist gitee extensions"
+        "push:gepage": "git subtree push --prefix=dist gitee ge-pages",
+        "ext": "vue-tsc --noEmit && vite build",
+        "push:ext": "git subtree push --prefix=dist gitee extensions"
     },
     "dependencies": {
         "element-plus": "^2.1.5",

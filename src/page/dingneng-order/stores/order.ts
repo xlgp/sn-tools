@@ -1,5 +1,5 @@
 import { getGoodsList, GoodsItemType } from "../data";
-export const useStore = defineStore('dingnengOrder', {
+export const useStore = defineStore("dingnengOrder", {
   state: () => {
     return {
       dn_order_id: "",
@@ -16,7 +16,7 @@ export const useStore = defineStore('dingnengOrder', {
       total_weight: 0,
       delivery_user: "",
       remark: "",
-    }
+    };
   },
   getters: {
     total_count: (state) => {
@@ -25,25 +25,44 @@ export const useStore = defineStore('dingnengOrder', {
         total += item.value;
       });
       return total;
-    }
+    },
   },
   actions: {
     createDNOrderId() {
-      return "DN" + new Date().getTime() + "" + Math.floor(Math.random() * 1000);
+      return (
+        "DN" + new Date().getTime() + "" + Math.floor(Math.random() * 1000)
+      );
     },
     getGoodsList() {
-      return getGoodsList().map(item=>{
+      return getGoodsList().map((item) => {
         item.value = 0;
         return item;
       });
+    },
+    getFromStorage() {
+      return {
+        sender: localStorage.getItem("sender") || "",
+        sender_phone: localStorage.getItem("sender_phone") || "",
+        delivery_user: localStorage.getItem("delivery_user") || "",
+      };
+    },
+    saveToStorage() {
+      localStorage.setItem("sender", this.sender);
+      localStorage.setItem("sender_phone", this.sender_phone);
+      localStorage.setItem("delivery_user", this.delivery_user);
     },
     init() {
       this.$reset();
       this.goodsList = this.getGoodsList();
       this.dn_order_id = this.createDNOrderId();
-      this.delivery_user = "熊修军";
-      this.send_time = +new Date;
-      this.recipient_time = +new Date;
-    }
+
+      let data = this.getFromStorage();
+      this.sender = data.sender;
+      this.sender_phone = data.sender_phone;
+      this.delivery_user = data.delivery_user;
+
+      this.send_time = +new Date();
+      this.recipient_time = +new Date();
+    },
   },
-})
+});
