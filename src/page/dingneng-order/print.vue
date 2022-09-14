@@ -75,18 +75,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useStore } from "./stores/order";
+import { useStore as useSettingsStore } from "./stores/settings";
 import barcode from "./components/barcode.vue";
 const route = useRoute();
 const router = useRouter();
+
 const store = useStore();
+const settingsStore = useSettingsStore();
+settingsStore.init();
 
 const data = store.$state;
 
 const loading = ref(false);
 
-const fontSize = ref(1);
+const fontSize = ref(1.3);
 
 const c_send_time = computed(() => {
   let d = new Date(data.send_time);
@@ -105,6 +109,7 @@ const goBack = () => {
 const handlePrint = () => {
   window.print();
 };
+
 </script>
 <style scoped>
 @media print {
