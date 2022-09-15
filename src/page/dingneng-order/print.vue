@@ -25,14 +25,23 @@
           <td colspan="5">收货地址：{{ data.address }}</td>
         </tr>
         <tr>
-          <td colspan="5" style="text-align: center; padding: 10px 0px; font-size: 1.12em">货物详情</td>
+          <td
+            colspan="5"
+            style="text-align: center; padding: 10px 0px; font-size: 1.12em"
+          >
+            货物详情
+          </td>
         </tr>
         <tr>
-          <td class="border-right" v-for="item in data.goodsList" :key="item.key">{{ item.text }}</td>
+          <td class="border-right" v-for="item in data.goodsList" :key="item.key">
+            {{ item.text }}
+          </td>
           <td style="text-align: center">合计</td>
         </tr>
         <tr>
-          <td class="border-right" v-for="item in data.goodsList" :key="item.key">{{ item.value }}</td>
+          <td class="border-right" v-for="item in data.goodsList" :key="item.key">
+            {{ item.value }}
+          </td>
           <td style="text-align: center">{{ store.total_count }}</td>
         </tr>
         <tr>
@@ -63,7 +72,8 @@
         :step="0.1"
         :min="1"
         :max="2"
-        style="width:200px;margin-left: 74px;"
+        @change="handleChange"
+        style="width: 200px; margin-left: 74px"
       />
     </div>
     <div class="print-btn-wapper">
@@ -77,17 +87,23 @@
 
 <script setup lang="ts">
 import { useStore } from "./stores/order";
+import { useSettingsStore } from "./stores/settings";
 import barcode from "./components/barcode.vue";
-const route = useRoute();
+
 const router = useRouter();
 
 const store = useStore();
+const settingsStore = useSettingsStore();
 
 const data = store.$state;
 
 const loading = ref(false);
 
-const fontSize = ref(1.3);
+const { fontSize } = storeToRefs(settingsStore);
+
+const handleChange = (value: number | any) => {
+  settingsStore.saveToStorage();
+};
 
 const c_send_time = computed(() => {
   let d = new Date(data.send_time);
@@ -106,7 +122,6 @@ const goBack = () => {
 const handlePrint = () => {
   window.print();
 };
-
 </script>
 <style scoped>
 @media print {
