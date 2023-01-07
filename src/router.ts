@@ -7,6 +7,7 @@ import Dashboard from './page/dashboard/index.vue'
 import NotFound from './page/404.vue'
 import DingnengOrderCreate from './page/dingneng-order/create.vue'
 import DingnengOrderPrint from './page/dingneng-order/print.vue'
+import Ftms from "./page/ftms/index.vue";
 
 const routes = [
   {
@@ -14,6 +15,7 @@ const routes = [
       { path: '/', name: 'dashboard', component: Dashboard, meta: { title: '首页' } },
       { path: '/volume', name: 'volume', component: Volume, meta: { title: '体积计算' } },
       { path: '/tongji', name: 'tongji', component: TongJi, meta: { title: '品牌统计' } },
+      { path: '/ftms', name: 'ftms', component: Ftms, meta: { title: "留资数据格式化" } },
       {
         path: 'dingnengorder', name: 'dingnengOrder', redirect: '/dingnengorder/create', meta: { title: "鼎能面单" }, children: [
           { path: 'create', name: 'dingnengOrderCreate', component: DingnengOrderCreate, meta: { menuHidden: true }, },
