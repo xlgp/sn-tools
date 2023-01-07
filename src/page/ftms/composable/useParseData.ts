@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { DataType, KLUGER, RAV4, SeriesKeyType, SeriesType } from "../contants/constans";
 import { KlugerList } from "../contants/kluger";
 import { Rav4List } from "../contants/rav4";
@@ -39,15 +38,18 @@ export function prefix0(num: number) {
 }
 
 function getTime() {
-    let str = "2023-01-"
+
     let date = new Date;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
     let day = getRandomInt(date.getDate(), date.getDate() + 2);
     let min = day == date.getDate() && 18 || 9;
     let max = day == date.getDate() && 22 || 17;
     let hour = prefix0(getRandomInt(min, max));
     let minute = prefix0(getRandomInt(0, 60));
     let second = prefix0(getRandomInt(0, 60));
-    return str + prefix0(day) + " " + hour + ":" + minute + ":" + second;
+
+    return year + "-" + prefix0(month) + "-" + prefix0(day) + " " + hour + ":" + minute + ":" + second;
 }
 
 function setOrderTime(list: DataType[]) {
