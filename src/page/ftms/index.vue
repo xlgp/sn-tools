@@ -4,7 +4,7 @@
 </template>
 <script setup lang="ts">
 import { ElMessage, UploadRawFile } from 'element-plus';
-import { importFromXlsx,exportToXlsx } from './composable/excel-util';
+import { importFromXlsx, exportToXlsx } from './composable/excel-util';
 import uploadVue from './component/upload.vue';
 import useParseData from "./composable/useParseData"
 import { DataType, SeriesKeyType } from "./data";
@@ -12,8 +12,8 @@ import { DataType, SeriesKeyType } from "./data";
 const handleChange = (rawFile: UploadRawFile) => {
     importFromXlsx(rawFile).then(res => {
         const { series, list } = res as { series: SeriesKeyType, list: DataType[] };
-        useParseData(series, list);
-        exportToXlsx(list, series);
+        let resultList = useParseData(series, list);
+        exportToXlsx(resultList, series);
     }).catch(e => { ElMessage.error(e.message); console.error(e) });
 }
 

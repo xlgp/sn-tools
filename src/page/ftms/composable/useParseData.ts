@@ -1,4 +1,4 @@
-import { KLUGER, RAV4 } from "../contants/constans";
+import { keyList, KLUGER, RAV4 } from "../contants/constans";
 import { KlugerList } from "../contants/kluger";
 import { Rav4List } from "../contants/rav4";
 import { SeriesKeyType, SeriesType, DataType } from "../data";
@@ -38,19 +38,59 @@ export function prefix0(num: number) {
     return num < 10 && "0" + num || num;
 }
 
+/**
+ * 权重值
+ */
+const hourWeight = {
+    hour: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+    weight: [15, 19, 14, 8, 10, 17, 16, 12, 10, 5, 3, 3, 2, 2],
+};
+
+/**
+ * 权重总和
+ */
+const weightSum = (() => {
+    return hourWeight.weight.reduce((a, v) => a + v);
+})();
+
+/**
+ * 权重设计
+ * 线性扫描
+ */
+function getHourIndex() {
+    let rand = getRandomInt(0, weightSum);
+    for (let i = 0; i < hourWeight.weight.length; i++) {
+        const weight = hourWeight.weight[i];
+        rand -= weight;
+        if (rand <= 0) {
+            return i;
+        }
+    }
+    return 0;
+}
+
+function getDay(hour: number, date: Date) {
+    if (hour >= 9 && hour < 18) {
+        return date.getDate();
+    }
+    return date.getDate() + 1;
+}
+
 function getTime() {
 
     let date = new Date;
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
-    let day = getRandomInt(date.getDate(), date.getDate() + 2);
-    let min = day == date.getDate() && 18 || 9;
-    let max = day == date.getDate() && 22 || 17;
-    let hour = prefix0(getRandomInt(min, max));
+
+    let hourIndex = getHourIndex();
+    let hour = hourWeight.hour[hourIndex];
+
+    let day = getDay(hour, date);
+
     let minute = prefix0(getRandomInt(0, 60));
     let second = prefix0(getRandomInt(0, 60));
 
-    return year + "-" + prefix0(month) + "-" + prefix0(day) + " " + hour + ":" + minute + ":" + second;
+    return year + "-" + prefix0(month) + "-" + prefix0(day) + " " + prefix0(hour) + ":" + minute + ":" + second;
 }
 
 function setOrderTime(list: DataType[]) {
@@ -73,4 +113,16 @@ export default (series: SeriesKeyType, list: DataType[]) => {
 
     setDealer(list, citys);
     setOrderTime(list);
+
+    return list.map(item => {
+        let data: { [key: string]: any } = {};
+        data[keyList.city] = item.city;
+        data[keyList.username] = item.username;
+        data[keyList.phone] = item.phone;
+        data[keyList.dealerId] = item.dealerId;
+        data[keyList.dealerName] = item.dealerName;
+        data[keyList.seriesId] = item.seriesId;
+        data[keyList.orderAt] = item.orderAt;
+        return data;
+    });
 }

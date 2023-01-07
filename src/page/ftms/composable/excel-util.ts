@@ -54,21 +54,10 @@ function openDownloadDialog(blob: Blob, saveName: string) {
     aLink.remove();
 }
 
-export const exportToXlsx = (list: DataType[], series: SeriesKeyType) => {
+export const exportToXlsx = (list: { [key: string]: any; }[], series: SeriesKeyType) => {
     let date = new Date;
     let strDate = prefix0(date.getMonth() + 1) + "" + prefix0(date.getDate());
-    let dataList = list.map(item => {
-        let data: { [key: string]: any } = {};
-        data[keyList.city] = item.city;
-        data[keyList.username] = item.username;
-        data[keyList.phone] = item.phone;
-        data[keyList.dealerId] = item.dealerId;
-        data[keyList.dealerName] = item.dealerName;
-        data[keyList.seriesId] = item.seriesId;
-        data[keyList.orderAt] = item.orderAt;
-        return data;
-    });
-    openDownloadDialog(sheet2blob(utils.json_to_sheet(dataList), series.text + "-" + strDate), series.text + "-" + series.id + "-" + strDate + ".xlsx");
+    openDownloadDialog(sheet2blob(utils.json_to_sheet(list), series.text + "-" + strDate), series.text + "-" + series.id + "-" + strDate + ".xlsx");
 }
 
 export const importFromXlsx = (rawFile: UploadRawFile) => {
