@@ -1,6 +1,7 @@
-import { DataType, KLUGER, RAV4, SeriesKeyType, SeriesType } from "../contants/constans";
+import { KLUGER, RAV4 } from "../contants/constans";
 import { KlugerList } from "../contants/kluger";
 import { Rav4List } from "../contants/rav4";
+import { SeriesKeyType, SeriesType, DataType } from "../data";
 
 function getSeriesList(series: SeriesKeyType): SeriesType[] {
     if (series.id == KLUGER) {

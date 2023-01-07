@@ -1,4 +1,5 @@
-import { KLUGER, SeriesType } from "./constans";
+import { SeriesType } from "../data";
+import { KLUGER } from "./constans";
 
 /**
  * CROWN KLUGER 皇冠陆放 57 皇冠陆放 皇冠陆放

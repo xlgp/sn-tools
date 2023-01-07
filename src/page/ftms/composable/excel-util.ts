@@ -5,7 +5,8 @@
 
 import { UploadRawFile } from "element-plus";
 import { read, utils, WorkBook, WorkSheet, write, WritingOptions } from "xlsx";
-import { DataType, keyList, SeriesKeyType, SeriesList } from "../contants/constans";
+import { keyList, SeriesList } from "../contants/constans";
+import { DataType, SeriesKeyType } from "../data";
 import { prefix0 } from "./useParseData";
 
 function sheet2blob(sheet: WorkSheet, sheetName: string): Blob {

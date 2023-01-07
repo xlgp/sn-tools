@@ -7,7 +7,7 @@ import { ElMessage, UploadRawFile } from 'element-plus';
 import { importFromXlsx,exportToXlsx } from './composable/excel-util';
 import uploadVue from './component/upload.vue';
 import useParseData from "./composable/useParseData"
-import { DataType, SeriesKeyType } from "./contants/constans";
+import { DataType, SeriesKeyType } from "./data";
 
 const handleChange = (rawFile: UploadRawFile) => {
     importFromXlsx(rawFile).then(res => {

@@ -2,7 +2,8 @@
  * RAV4C 38 全新 RAV4 荣放 荣放
  */
 
-import { RAV4, SeriesType } from "./constans";
+import { SeriesType } from "../data";
+import { RAV4 } from "./constans";
 
 const seriesId = RAV4;
 
