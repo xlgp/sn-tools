@@ -5,27 +5,29 @@
     <uploadVue @change="handleChange" />
     <SnForm />
     <TipDescription />
+    <SheetDialog v-model:sheetIndex="sheetDialogConfig.sheetIndex" v-model:visible="sheetDialogConfig.visible"
+        :sheet-names="sheetDialogConfig.sheetNames" @select="handleSheetSelect"
+        :file-name="sheetDialogConfig.fileName" />
 </template>
 <script setup lang="ts">
 import { ElMessage, UploadRawFile } from 'element-plus';
-import { importFromXlsx } from './composable/excel-util';
+import { importXlsx } from './composable/excel-util';
 import uploadVue from './component/upload.vue';
 import UploadTypeRadio from './component/UploadTypeRadio.vue'
 import SnForm from './component/SnForm.vue';
-import { useFtmsStore } from './stores/ftms';
-import { ImportXlsxType } from "./data";
 import useFtms from './composable/useFtms';
 import TipAlert from './component/TipAlert.vue';
 import TipDescription from './component/TipDescription.vue'
+import { WorkBook } from 'xlsx';
+import SheetDialog from './component/SheetDialog.vue';
 
-const store = useFtmsStore();
-const { sheetIndex, uploadTypeRadioKeyList } = storeToRefs(store);
-
-const uploadType = ref(uploadTypeRadioKeyList.value[0].id);
+const { uploadType, sheetDialogConfig, openSheetDialog, workBook, handleSheetSelect } = useFtms();
 
 const handleChange = (rawFile: UploadRawFile) => {
-    importFromXlsx(rawFile, sheetIndex.value).then(res => {
-        useFtms({ res: res as ImportXlsxType, fileName: rawFile.name, uploadType });
-    }).catch(e => { ElMessage.error(e.message); console.error(e) });
+    importXlsx(rawFile).then(res => {
+        let wb = res as WorkBook;
+        workBook.value = wb;
+        openSheetDialog(rawFile, workBook.value.SheetNames);
+    }).catch(e => { workBook.value = undefined; ElMessage.error(e.message); console.error(e) });
 }
 </script>

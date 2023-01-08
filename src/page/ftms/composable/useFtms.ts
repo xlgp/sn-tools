@@ -1,32 +1,71 @@
 import { Ref } from "vue";
+import { WorkBook } from "xlsx";
 import { KLUGER, RAV4 } from "../contants/constans";
-import { ImportXlsxType, SeriesType } from "../data";
+import { SeriesType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
-import { exportToXlsx } from "./excel-util";
+import { exportToXlsx, getWorkSheet } from "./excel-util";
 import useParseData, { getSeries } from "./useParseData";
 
-export default (params: {
-    res: ImportXlsxType,
-    fileName: string,
-    uploadType: Ref<number>
-}) => {
+export default () => {
+
     const store = useFtmsStore();
     const { uploadTypeRadioKeyList } = storeToRefs(store);
-    const { saveSeries } = store;
 
-    const { res, fileName, uploadType } = params;
-    const { list, sheetName } = res;
-    let series = getSeries(sheetName, fileName);
+    const uploadType = ref(uploadTypeRadioKeyList.value[0].id);
 
-    if (uploadType.value == uploadTypeRadioKeyList.value[0].id) { //数据
+    const workBook = ref<WorkBook>();
 
-        exportToXlsx(useParseData(list, series), series);
+    const handleXlsxData = (params: {
+        list: [],
+        sheetName: string,
+        fileName: string,
+        uploadType: Ref<number>
+    }) => {
+        const { saveSeries } = store;
 
-    } else if (uploadType.value == KLUGER || uploadType.value == RAV4) {
+        const { list, sheetName, fileName, uploadType } = params;
+        let series = getSeries(sheetName, fileName);
 
-        saveSeries(list as SeriesType[], uploadType.value);
-        ElMessage.success(`已添加${list.length}条数据`);
-    } else {
-        throw new Error("类型错误");
+        if (uploadType.value == uploadTypeRadioKeyList.value[0].id) { //数据
+
+            exportToXlsx(useParseData(list, series), series);
+
+        } else if (uploadType.value == KLUGER || uploadType.value == RAV4) {
+
+            saveSeries(list as SeriesType[], uploadType.value);
+            ElMessage.success(`已添加${list.length}条数据`);
+        } else {
+            throw new Error("类型错误");
+        }
+    }
+
+    const sheetDialogConfig = reactive({
+        visible: false,
+        sheetNames: [] as string[],
+        sheetIndex: 0,
+        fileName: ""
+    });
+
+    const openSheetDialog = (file: File, sheetNames: string[]) => {
+        sheetDialogConfig.sheetNames = sheetNames;
+        sheetDialogConfig.visible = true;
+        sheetDialogConfig.fileName = file.name;
+    }
+
+    const handleSheetSelect = (sheetIndex: number) => {
+        if (!workBook.value) {
+            return;
+        }
+        let list = getWorkSheet(workBook.value, sheetIndex);
+        handleXlsxData({ list, sheetName: workBook.value.SheetNames[sheetIndex], fileName: sheetDialogConfig.fileName, uploadType });
+        workBook.value = undefined;
+    }
+
+    return {
+        workBook,
+        sheetDialogConfig,
+        openSheetDialog,
+        uploadType,
+        handleSheetSelect
     }
 }

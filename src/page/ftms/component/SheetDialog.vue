@@ -1,15 +1,55 @@
 <template>
-    <el-button text @click="dialogFormVisible = true">
-        打开
-    </el-button>
-    <el-dialog v-model="dialogFormVisible" title="Shipping address">
-        <el-radio-group v-model="radio1">
-            <el-radio label="1" size="large" border>Option A</el-radio>
-            <el-radio label="2" size="large" border>Option B</el-radio>
+    <el-dialog v-model="dialogVisible" title="选择Sheet">
+        <p>{{ fileName }}</p>
+        <el-radio-group v-model="sheetIndex" @change="handleChange">
+            <el-radio v-for="(item, index) in sheetNames" :label="index" size="large" border>{{ item }}</el-radio>
         </el-radio-group>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="handleSelected">
+                    确定
+                </el-button>
+            </span>
+        </template>
     </el-dialog>
 </template>
 <script setup lang="ts">
-const dialogFormVisible = ref(false);
-const radio1 = ref(1);
+
+const props = defineProps({
+    sheetIndex: {
+        type: Number,
+        default: 0
+    },
+    visible: {
+        type: Boolean,
+        default: false
+    },
+    fileName: {
+        type: String
+    },
+    sheetNames: {
+        type: Array,
+        default: []
+    }
+})
+const emit = defineEmits(['update:sheetIndex', 'update:visible', 'select']);
+
+const dialogVisible = computed({
+    get() {
+        return props.visible
+    },
+    set(value) {
+        emit('update:visible', value)
+    }
+})
+
+const handleChange = (val: any) => {
+    emit('update:sheetIndex', val);
+}
+
+const handleSelected =()=>{
+    dialogVisible.value = false;
+    emit('select', props.sheetIndex);
+}
 </script>

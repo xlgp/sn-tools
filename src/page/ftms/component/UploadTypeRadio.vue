@@ -13,8 +13,10 @@
 import { useFtmsStore } from '../stores/ftms';
 
 const { uploadTypeRadioKeyList } = useFtmsStore();
+
 defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
+
 const handleChange = (val: any) => {
     emit('update:modelValue', val);
 }

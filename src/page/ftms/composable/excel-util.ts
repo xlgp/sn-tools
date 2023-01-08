@@ -58,6 +58,26 @@ export const exportToXlsx = (list: { [key: string]: any; }[], series: SeriesKeyT
     openDownloadDialog(sheet2blob(utils.json_to_sheet(list), series.text + "-" + strDate), series.text + "-" + series.id + "-" + strDate + ".xlsx");
 }
 
+export const importXlsx = (file: File) => {
+    return new Promise((resolve, reject) => {
+
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                resolve(read(e.target?.result));
+            } catch (error) {
+                reject(error);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+export const getWorkSheet = (workBook: WorkBook, sheetIndex: number) => {
+    let sheet = workBook.Sheets[workBook.SheetNames[sheetIndex]];
+    return utils.sheet_to_json(sheet) as [];
+}
+
 export const importFromXlsx = (rawFile: File, sheetIndex: number = 0) => {
 
     return new Promise((resolve, reject) => {
