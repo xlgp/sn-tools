@@ -60,31 +60,20 @@ export const exportToXlsx = (list: { [key: string]: any; }[], series: SeriesKeyT
     openDownloadDialog(sheet2blob(utils.json_to_sheet(list), series.text + "-" + strDate), series.text + "-" + series.id + "-" + strDate + ".xlsx");
 }
 
-export const importFromXlsx = (rawFile: UploadRawFile) => {
+export const importFromXlsx = (rawFile: File, sheetIndex:number = 0) => {
 
     return new Promise((resolve, reject) => {
-
-        let series = SeriesList.filter(item => rawFile.name.includes(item.text))[0];
 
         let reader = new FileReader();
         reader.onload = (e) => {
             try {
                 let workBook = read(e.target?.result);
 
-                let sheet = workBook.Sheets[workBook.SheetNames[0]];
+                let sheet = workBook.Sheets[workBook.SheetNames[sheetIndex]];
 
-                let list = utils.sheet_to_json(sheet).map((item: any) => {
-                    return {
-                        city: item[keyList.city],
-                        username: item[keyList.username],
-                        phone: item[keyList.phone],
-                        seriesId: series.id
-                    } as DataType;
-                });
+                let list = utils.sheet_to_json(sheet);
 
-                resolve({
-                    series, list
-                });
+                resolve(list);
             } catch (error) {
                 reject(error);
             }

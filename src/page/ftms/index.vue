@@ -11,9 +11,8 @@ import { DataType, SeriesKeyType } from "./data";
 
 const handleChange = (rawFile: UploadRawFile) => {
     importFromXlsx(rawFile).then(res => {
-        const { series, list } = res as { series: SeriesKeyType, list: DataType[] };
-        let resultList = useParseData(series, list);
-        exportToXlsx(resultList, series);
+        const { series, list } = useParseData(res as [], rawFile.name);
+        exportToXlsx(list, series);
     }).catch(e => { ElMessage.error(e.message); console.error(e) });
 }
 

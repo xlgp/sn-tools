@@ -1,4 +1,4 @@
-import { keyList, KLUGER, RAV4 } from "../contants/constans";
+import { keyList, KLUGER, RAV4, SeriesList } from "../contants/constans";
 import { KlugerList } from "../contants/kluger";
 import { Rav4List } from "../contants/rav4";
 import { SeriesKeyType, SeriesType, DataType } from "../data";
@@ -99,8 +99,20 @@ function setOrderTime(list: DataType[]) {
     });
 }
 
-export default (series: SeriesKeyType, list: DataType[]) => {
+export default (dataList: [], fileName: string) => {
+
+    let series: SeriesKeyType = SeriesList.filter(item => fileName.includes(item.text))[0];
+
     let seriesList = getSeriesList(series);
+
+    let list = dataList.map((item: any) => {
+        return {
+            city: item[keyList.city],
+            username: item[keyList.username],
+            phone: item[keyList.phone],
+            seriesId: series.id
+        } as DataType;
+    });
 
     let citylist = new Set<string>();
     list.forEach(item => citylist.add(item.city));
@@ -114,7 +126,7 @@ export default (series: SeriesKeyType, list: DataType[]) => {
     setDealer(list, citys);
     setOrderTime(list);
 
-    return list.map(item => {
+    let resultList = list.map(item => {
         let data: { [key: string]: any } = {};
         data[keyList.city] = item.city;
         data[keyList.username] = item.username;
@@ -125,4 +137,9 @@ export default (series: SeriesKeyType, list: DataType[]) => {
         data[keyList.orderAt] = item.orderAt;
         return data;
     });
+
+    return {
+        series,
+        list: resultList
+    };
 }
