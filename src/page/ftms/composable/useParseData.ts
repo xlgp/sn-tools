@@ -1,18 +1,6 @@
-import { keyList, KLUGER, RAV4, SeriesKeyList } from "../contants/constans";
-import { KlugerList } from "../contants/kluger";
-import { Rav4List } from "../contants/rav4";
+import { keyList, SeriesKeyList } from "../contants/constans";
 import { SeriesKeyType, SeriesType, DataType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
-
-function getSeriesList(series: SeriesKeyType): SeriesType[] {
-
-    if (series.id == KLUGER) {
-        return KlugerList;
-    } else if (series.id == RAV4) {
-        return Rav4List;
-    }
-    throw new Error(`车系代码错误:${series.id},${series.text}`);
-}
 
 interface CitysType {
     [key: string]: SeriesType[]
@@ -71,12 +59,6 @@ function getHourIndex() {
     return 0;
 }
 
-function getDay(hour: number, date: Date) {
-    if (hour >= 9 && hour < 18) {
-        return date.getDate();
-    }
-    return date.getDate() + 1;
-}
 
 function getTime() {
 
