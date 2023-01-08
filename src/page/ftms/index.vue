@@ -27,7 +27,7 @@ const handleChange = (rawFile: UploadRawFile) => {
     importXlsx(rawFile).then(res => {
         let wb = res as WorkBook;
         workBook.value = wb;
-        openSheetDialog(rawFile, workBook.value.SheetNames);
+        openSheetDialog(rawFile.name, workBook.value.SheetNames);
     }).catch(e => { workBook.value = undefined; ElMessage.error(e.message); console.error(e) });
 }
 </script>

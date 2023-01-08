@@ -46,10 +46,10 @@ export default () => {
         fileName: ""
     });
 
-    const openSheetDialog = (file: File, sheetNames: string[]) => {
+    const openSheetDialog = (fileName: string, sheetNames: string[]) => {
         sheetDialogConfig.sheetNames = sheetNames;
         sheetDialogConfig.visible = true;
-        sheetDialogConfig.fileName = file.name;
+        sheetDialogConfig.fileName = fileName;
     }
 
     const handleSheetSelect = (sheetIndex: number) => {

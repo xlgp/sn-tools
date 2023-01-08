@@ -4,7 +4,7 @@
  */
 
 import { read, utils, WorkBook, WorkSheet, write, WritingOptions } from "xlsx";
-import { ImportXlsxType, SeriesKeyType } from "../data";
+import { SeriesKeyType } from "../data";
 import { prefix0 } from "./useParseData";
 
 function sheet2blob(sheet: WorkSheet, sheetName: string): Blob {
@@ -76,29 +76,4 @@ export const importXlsx = (file: File) => {
 export const getWorkSheet = (workBook: WorkBook, sheetIndex: number) => {
     let sheet = workBook.Sheets[workBook.SheetNames[sheetIndex]];
     return utils.sheet_to_json(sheet) as [];
-}
-
-export const importFromXlsx = (rawFile: File, sheetIndex: number = 0) => {
-
-    return new Promise((resolve, reject) => {
-
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                let workBook = read(e.target?.result);
-
-                let sheet = workBook.Sheets[workBook.SheetNames[sheetIndex]];
-
-                let list = utils.sheet_to_json(sheet);
-
-                resolve({
-                    list,
-                    sheetName: workBook.SheetNames[sheetIndex]
-                } as ImportXlsxType);
-            } catch (error) {
-                reject(error);
-            }
-        };
-        reader.readAsArrayBuffer(rawFile);
-    });
 }
