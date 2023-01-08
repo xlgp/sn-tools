@@ -8,11 +8,6 @@ export const SeriesKeyList: SeriesKeyType[] = [
     { id: RAV4, text: "荣放", label: "rav4" }
 ];
 
-export const uploadTypeRadioKList = [
-    { id: 0, text: "数据" },
-    ...SeriesKeyList
-];
-
 export const keyList = {
     city: "城市",
     username: "姓名",

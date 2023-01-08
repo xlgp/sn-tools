@@ -9,6 +9,13 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
         new Date(toDay.getFullYear(), toDay.getMonth(), toDay.getDate(), 17, 59, 59)
     ]);
 
+    const sheetIndex = ref(0);
+
+    const uploadTypeRadioKeyList = reactive([
+        { id: 0, text: "数据" },
+        ...SeriesKeyList
+    ]);
+
     function getLocalKey(series: SeriesKeyType) {
         return series.label + series.id;
     }
@@ -31,5 +38,5 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
         seriesList[series.label] = list;
     }
 
-    return { dateTime, seriesList, saveSeries };
+    return { dateTime, uploadTypeRadioKeyList, seriesList, saveSeries, sheetIndex };
 });

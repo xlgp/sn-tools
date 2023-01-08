@@ -6,36 +6,22 @@
 </template>
 <script setup lang="ts">
 import { ElMessage, UploadRawFile } from 'element-plus';
-import { importFromXlsx, exportToXlsx } from './composable/excel-util';
+import { importFromXlsx } from './composable/excel-util';
 import uploadVue from './component/upload.vue';
 import UploadTypeRadio from './component/UploadTypeRadio.vue'
-import useParseData, { getSeries } from "./composable/useParseData"
 import SnForm from './component/SnForm.vue';
-import { KLUGER, RAV4, uploadTypeRadioKList } from './contants/constans';
 import { useFtmsStore } from './stores/ftms';
-import { SeriesType } from "./data";
+import { ImportXlsxType } from "./data";
+import useFtms from './composable/useFtms';
 
-const { saveSeries } = useFtmsStore();
+const store = useFtmsStore();
+const { sheetIndex, uploadTypeRadioKeyList } = storeToRefs(store);
 
-const uploadType = ref(uploadTypeRadioKList[0].id);
-
+const uploadType = ref(uploadTypeRadioKeyList.value[0].id);
+watch(uploadType,(b,v)=>console.log(b,v));
 const handleChange = (rawFile: UploadRawFile) => {
-    importFromXlsx(rawFile).then(res => {
-
-        let series = getSeries(rawFile.name);
-
-        if (uploadType.value == uploadTypeRadioKList[0].id) { //数据
-
-            const list = useParseData(res as [], series);
-            exportToXlsx(list, series);
-
-        } else if (uploadType.value == KLUGER || uploadType.value == RAV4) {
-            saveSeries(res as SeriesType[], uploadType.value);
-        }else {
-            throw new Error("类型错误");
-        }
-
+    importFromXlsx(rawFile, sheetIndex.value).then(res => {
+        useFtms({ res: res as ImportXlsxType, fileName: rawFile.name, uploadType });
     }).catch(e => { ElMessage.error(e.message); console.error(e) });
 }
-
 </script>

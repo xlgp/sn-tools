@@ -106,13 +106,25 @@ function setOrderTime(list: DataType[]) {
     });
 }
 
-export function getSeries(name: string) {
+/**
+ * 获取陆放或荣放， 先用sheetName
+ * @param sheetName 
+ * @param name 
+ * @returns 
+ */
+export function getSeries(sheetName: string, name: string) {
+    let list = SeriesKeyList.filter(item => sheetName.includes(item.text));
+    if (list.length > 0) {
+        return list[0];
+    }
     return SeriesKeyList.filter(item => name.includes(item.text))[0];
 }
 
 export default (dataList: [], series: SeriesKeyType) => {
 
-    let seriesList = getSeriesList(series);
+    const { seriesList } = storeToRefs(useFtmsStore());
+
+    let tmpSeriesList = seriesList.value[series.label];
 
     let list = dataList.map((item: any) => {
         return {
@@ -129,7 +141,7 @@ export default (dataList: [], series: SeriesKeyType) => {
     let citys: CitysType = {};
 
     citylist.forEach(city => {
-        citys[city] = seriesList.filter(item => item.city == city);
+        citys[city] = tmpSeriesList.filter(item => item.city == city);
     });
 
     setDealer(list, citys);

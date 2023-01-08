@@ -15,6 +15,11 @@ export interface SeriesKeyType {
     label: string,
 }
 
+export interface ImportXlsxType {
+    list: [],
+    sheetName: string
+}
+
 export interface SeriesType {
     dealerId: string,
     name: string,

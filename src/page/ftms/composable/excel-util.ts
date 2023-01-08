@@ -4,7 +4,7 @@
  */
 
 import { read, utils, WorkBook, WorkSheet, write, WritingOptions } from "xlsx";
-import { SeriesKeyType } from "../data";
+import { ImportXlsxType, SeriesKeyType } from "../data";
 import { prefix0 } from "./useParseData";
 
 function sheet2blob(sheet: WorkSheet, sheetName: string): Blob {
@@ -58,7 +58,7 @@ export const exportToXlsx = (list: { [key: string]: any; }[], series: SeriesKeyT
     openDownloadDialog(sheet2blob(utils.json_to_sheet(list), series.text + "-" + strDate), series.text + "-" + series.id + "-" + strDate + ".xlsx");
 }
 
-export const importFromXlsx = (rawFile: File, sheetIndex:number = 0) => {
+export const importFromXlsx = (rawFile: File, sheetIndex: number = 0) => {
 
     return new Promise((resolve, reject) => {
 
@@ -71,7 +71,10 @@ export const importFromXlsx = (rawFile: File, sheetIndex:number = 0) => {
 
                 let list = utils.sheet_to_json(sheet);
 
-                resolve(list);
+                resolve({
+                    list,
+                    sheetName: workBook.SheetNames[sheetIndex]
+                } as ImportXlsxType);
             } catch (error) {
                 reject(error);
             }
