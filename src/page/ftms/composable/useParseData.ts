@@ -2,6 +2,7 @@ import { keyList, KLUGER, RAV4, SeriesList } from "../contants/constans";
 import { KlugerList } from "../contants/kluger";
 import { Rav4List } from "../contants/rav4";
 import { SeriesKeyType, SeriesType, DataType } from "../data";
+import { useFtmsStore } from "../stores/ftms";
 
 function getSeriesList(series: SeriesKeyType): SeriesType[] {
     if (series.id == KLUGER) {
@@ -78,14 +79,19 @@ function getDay(hour: number, date: Date) {
 
 function getTime() {
 
-    let date = new Date;
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
+    const { dateTime } = useFtmsStore();
 
     let hourIndex = getHourIndex();
     let hour = hourWeight.hour[hourIndex];
 
-    let day = getDay(hour, date);
+    let date = new Date(getRandomInt(dateTime[0].getTime(), dateTime[1].getTime()));
+    while (date.getHours() != hour) {
+        date = new Date(getRandomInt(dateTime[0].getTime(), dateTime[1].getTime()));
+    }
+
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
 
     let minute = prefix0(getRandomInt(0, 60));
     let second = prefix0(getRandomInt(0, 60));
@@ -134,7 +140,7 @@ export default (dataList: [], fileName: string) => {
         data[keyList.dealerId] = item.dealerId;
         data[keyList.dealerName] = item.dealerName;
         data[keyList.seriesId] = item.seriesId;
-        data[keyList.orderAt] = item.orderAt;
+        data[keyList.orderAt] = item.orderAt; console.log(item.orderAt);
         return data;
     });
 
