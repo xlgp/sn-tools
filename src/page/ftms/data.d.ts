@@ -12,6 +12,7 @@ export interface DataType {
 export interface SeriesKeyType {
     id: number,
     text: string;
+    label: string,
 }
 
 export interface SeriesType {

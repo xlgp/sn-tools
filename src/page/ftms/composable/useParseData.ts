@@ -1,10 +1,11 @@
-import { keyList, KLUGER, RAV4, SeriesList } from "../contants/constans";
+import { keyList, KLUGER, RAV4, SeriesKeyList } from "../contants/constans";
 import { KlugerList } from "../contants/kluger";
 import { Rav4List } from "../contants/rav4";
 import { SeriesKeyType, SeriesType, DataType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
 
 function getSeriesList(series: SeriesKeyType): SeriesType[] {
+
     if (series.id == KLUGER) {
         return KlugerList;
     } else if (series.id == RAV4) {
@@ -105,9 +106,11 @@ function setOrderTime(list: DataType[]) {
     });
 }
 
-export default (dataList: [], fileName: string) => {
+export function getSeries(name: string) {
+    return SeriesKeyList.filter(item => name.includes(item.text))[0];
+}
 
-    let series: SeriesKeyType = SeriesList.filter(item => fileName.includes(item.text))[0];
+export default (dataList: [], series: SeriesKeyType) => {
 
     let seriesList = getSeriesList(series);
 
@@ -132,7 +135,7 @@ export default (dataList: [], fileName: string) => {
     setDealer(list, citys);
     setOrderTime(list);
 
-    let resultList = list.map(item => {
+    return list.map(item => {
         let data: { [key: string]: any } = {};
         data[keyList.city] = item.city;
         data[keyList.username] = item.username;
@@ -143,9 +146,4 @@ export default (dataList: [], fileName: string) => {
         data[keyList.orderAt] = item.orderAt; console.log(item.orderAt);
         return data;
     });
-
-    return {
-        series,
-        list: resultList
-    };
 }

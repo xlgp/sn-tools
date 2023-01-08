@@ -3,10 +3,8 @@
  * 牌照	城市	品牌	款型	年份	姓名	电话	保司	身份证号码	备注
  */
 
-import { UploadRawFile } from "element-plus";
 import { read, utils, WorkBook, WorkSheet, write, WritingOptions } from "xlsx";
-import { keyList, SeriesList } from "../contants/constans";
-import { DataType, SeriesKeyType } from "../data";
+import { SeriesKeyType } from "../data";
 import { prefix0 } from "./useParseData";
 
 function sheet2blob(sheet: WorkSheet, sheetName: string): Blob {
