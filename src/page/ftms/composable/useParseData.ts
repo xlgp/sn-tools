@@ -51,7 +51,11 @@ export function getSeries(sheetName: string, name: string) {
     if (list.length > 0) {
         return list[0];
     }
-    return SeriesKeyList.filter(item => name.includes(item.text))[0];
+    list = SeriesKeyList.filter(item => name.includes(item.text));
+    if (list.length > 0) {
+        return list[0];
+    }
+    throw new Error("没有从文件名或sheet name 中找到车系名称");
 }
 
 export default (dataList: [], series: SeriesKeyType) => {

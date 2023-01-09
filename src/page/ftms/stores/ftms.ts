@@ -24,6 +24,9 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
         return text && JSON.parse(text) || [];
     }
 
+    /**
+     * key:SeriesKeyList.label
+     */
     const seriesList = reactive({
         [SeriesKeyList[0].label]: getSeries(SeriesKeyList[0]) as SeriesType[],
         [SeriesKeyList[1].label]: getSeries(SeriesKeyList[1]) as SeriesType[],
@@ -35,5 +38,9 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
         seriesList[series.label] = list;
     }
 
-    return { dateTime, uploadTypeRadioKeyList, seriesList, saveSeries };
+    function hasSeriesData(series: SeriesKeyType) {
+        return seriesList[series.label].length > 0;
+    }
+
+    return { dateTime, uploadTypeRadioKeyList, seriesList, saveSeries, hasSeriesData };
 });
