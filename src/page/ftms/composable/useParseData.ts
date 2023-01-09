@@ -46,7 +46,7 @@ function setOrderTime(list: DataType[]) {
  * @param name 
  * @returns 
  */
-export function getSeries(sheetName: string, name: string) {
+export function getSeriesFromName(sheetName: string, name: string) {
     let list = SeriesKeyList.filter(item => sheetName.includes(item.text));
     if (list.length > 0) {
         return list[0];

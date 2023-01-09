@@ -4,7 +4,7 @@ import { KLUGER, RAV4 } from "../contants/constans";
 import { SeriesType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
 import { exportToXlsx, sheet2json } from "./excel-util";
-import useParseData, { getSeries } from "./useParseData";
+import useParseData, { getSeriesFromName } from "./useParseData";
 
 export default () => {
 
@@ -24,7 +24,7 @@ export default () => {
         const { list, sheetName, fileName, uploadType } = params;
 
         if (uploadType.value == uploadTypeRadioKeyList.value[0].id) { //数据
-            let series = getSeries(sheetName, fileName);
+            let series = getSeriesFromName(sheetName, fileName);
             if (!store.hasSeriesData(series)) {
                 throw new Error(`没有该车系的数据：${series.text} 请先上传${series.text}的数据`);
             }
