@@ -9,10 +9,10 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
         new Date(toDay.getFullYear(), toDay.getMonth(), toDay.getDate(), 17, 59, 59)
     ]);
 
-    const uploadTypeRadioKeyList = reactive([
-        { id: 0, text: "数据" },
-        ...SeriesKeyList
-    ]);
+    const uploadTypeRadioKeyList = reactive({
+        data: { id: 0, text: "数据" },
+        seriesData: { id: 1, text: "车系资料" }
+    });
 
     function getLocalKey(series: SeriesKeyType) {
         return series.label + series.id;
@@ -32,8 +32,7 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
         [SeriesKeyList[1].label]: getSeries(SeriesKeyList[1]) as SeriesType[],
     });
 
-    function saveSeries(list: SeriesType[], seriesId: number) {
-        let series: SeriesKeyType = SeriesKeyList.filter(item => item.id == seriesId)[0];
+    function saveSeries(list: SeriesType[], series: SeriesKeyType) {
         localStorage.setItem(getLocalKey(series), JSON.stringify(list));
         seriesList[series.label] = list;
     }

@@ -7,14 +7,21 @@ import { read, utils, WorkBook, WorkSheet, write, WritingOptions } from "xlsx";
 import { SeriesKeyType } from "../data";
 import { prefix0 } from "../util";
 
-function sheet2blob(sheet: WorkSheet, sheetName: string): Blob {
-    sheetName = sheetName || 'sheet1';
+function sheet2blob(
+    sheetObject: {
+        [key: string]: WorkSheet
+    }): Blob {
+
     var workbook: WorkBook = {
-        SheetNames: [sheetName],
+        SheetNames: Object.keys(sheetObject),
         Sheets: {}
     };
-
-    workbook.Sheets[sheetName] = sheet; // 生成excel的配置项
+    for (const sheetName in sheetObject) {
+        if (Object.prototype.hasOwnProperty.call(sheetObject, sheetName)) {
+            const workBook = sheetObject[sheetName];
+            workbook.Sheets[sheetName] = workBook;
+        }
+    }
 
     var wopts: WritingOptions = {
         bookType: 'xlsx', // 要生成的文件类型
@@ -52,10 +59,29 @@ function openDownloadDialog(blob: Blob, saveName: string) {
     aLink.remove();
 }
 
-export const exportToXlsx = (list: { [key: string]: any; }[], series: SeriesKeyType) => {
+export const exportToXlsx = (
+    dataObject: {
+        [key: string]: {
+            [key: string]: any;
+        }[];
+    },
+    fileName: string
+) => {
     let date = new Date;
     let strDate = prefix0(date.getMonth() + 1) + "" + prefix0(date.getDate());
-    openDownloadDialog(sheet2blob(utils.json_to_sheet(list), series.text + "-" + strDate), series.text + "-" + series.id + "-" + strDate + ".xlsx");
+
+    let sheetObject: {
+        [key: string]: WorkSheet
+    } = {};
+
+    for (const key in dataObject) {
+        if (Object.prototype.hasOwnProperty.call(dataObject, key)) {
+            const list = dataObject[key];
+            sheetObject[key] = utils.json_to_sheet(list)
+        }
+    }
+
+    openDownloadDialog(sheet2blob(sheetObject), strDate + "-" + fileName);
 }
 
 export const importXlsx = (file: File) => {

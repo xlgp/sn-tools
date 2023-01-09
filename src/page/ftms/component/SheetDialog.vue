@@ -21,7 +21,7 @@ import RadioTitle from "./RadioTitle.vue";
 const props = defineProps({
   sheetIndex: {
     type: Number,
-    default: 0,
+    default: SHEET_SELECT_ALL.index,
   },
   visible: {
     type: Boolean,
@@ -39,10 +39,12 @@ const emit = defineEmits(["update:sheetIndex", "update:visible", "select"]);
 
 const sheetNameList = computed({
   get() {
-    let list = props.sheetNames.map((label, index) => {
-      return { index, label };
-    });
-    list.push(SHEET_SELECT_ALL);
+    let list = [
+      SHEET_SELECT_ALL,
+      ...props.sheetNames.map((label, index) => {
+        return { index, label };
+      })
+    ]
     return list;
   },
   set(value) {

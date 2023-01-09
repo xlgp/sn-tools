@@ -1,7 +1,7 @@
 import { Ref } from "vue";
 import { WorkBook } from "xlsx";
-import { KLUGER, RAV4 } from "../contants/constans";
-import { SeriesType } from "../data";
+import { SHEET_SELECT_ALL } from "../contants/constans";
+import { SeriesType, SheetObjectType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
 import { exportToXlsx, sheet2json } from "./excel-util";
 import useParseData, { getSeriesFromName } from "./useParseData";
@@ -11,29 +11,47 @@ export default () => {
     const store = useFtmsStore();
     const { uploadTypeRadioKeyList } = storeToRefs(store);
 
-    const uploadType = ref(uploadTypeRadioKeyList.value[0].id);
+    const uploadType = ref(uploadTypeRadioKeyList.value.data.id);
 
     const workBook = ref<WorkBook>();
 
     const handleXlsxData = (params: {
-        list: [],
-        sheetName: string,
+        sheetObject: SheetObjectType,
         fileName: string,
         uploadType: Ref<number>
     }) => {
-        const { list, sheetName, fileName, uploadType } = params;
+        const { sheetObject, fileName, uploadType } = params;
 
-        if (uploadType.value == uploadTypeRadioKeyList.value[0].id) { //数据
-            let series = getSeriesFromName(sheetName, fileName);
-            if (!store.hasSeriesData(series)) {
-                throw new Error(`没有该车系的数据：${series.text} 请先上传${series.text}的数据`);
+        if (uploadType.value == uploadTypeRadioKeyList.value.data.id) { //数据
+
+            let dataObject: {
+                [key: string]: {
+                    [key: string]: any;
+                }[]
+            } = {};
+
+            for (const sheetName in sheetObject) {
+                if (Object.prototype.hasOwnProperty.call(sheetObject, sheetName)) {
+                    const list: [] = sheetObject[sheetName];
+                    let series = getSeriesFromName(sheetName, fileName);
+                    if (!store.hasSeriesData(series)) {
+                        throw new Error(`没有该车系的数据：${series.text} 请先上传${series.text}的数据`);
+                    }
+                    dataObject[sheetName] = useParseData(list, series);
+                }
             }
-            exportToXlsx(useParseData(list, series), series);
+            exportToXlsx(dataObject, fileName);
 
-        } else if (uploadType.value == KLUGER || uploadType.value == RAV4) {
+        } else if (uploadType.value == uploadTypeRadioKeyList.value.seriesData.id) {
 
-            store.saveSeries(list as SeriesType[], uploadType.value);
-            ElMessage.success(`已添加${list.length}条数据`);
+            for (const sheetName in sheetObject) {
+                if (Object.prototype.hasOwnProperty.call(sheetObject, sheetName)) {
+                    const list: [] = sheetObject[sheetName];
+                    let series = getSeriesFromName(sheetName, fileName);
+                    store.saveSeries(list as SeriesType[], series);
+                    ElMessage.success(`已添加${sheetName}${list.length}条数据`);
+                }
+            }
         } else {
             throw new Error("类型错误");
         }
@@ -42,11 +60,11 @@ export default () => {
     const sheetDialogConfig = reactive({
         visible: false,
         sheetNames: [] as string[],
-        sheetIndex: 0,
+        sheetIndex: SHEET_SELECT_ALL.index,
         fileName: ""
     });
 
-    watch(() => sheetDialogConfig.fileName, () => sheetDialogConfig.sheetIndex = 0)
+    watch(() => sheetDialogConfig.fileName, () => sheetDialogConfig.sheetIndex = SHEET_SELECT_ALL.index)
 
     const openSheetDialog = (fileName: string, sheetNames: string[]) => {
         sheetDialogConfig.sheetNames = sheetNames;
@@ -58,14 +76,23 @@ export default () => {
         if (!workBook.value) {
             return;
         }
-        let list = sheet2json(workBook.value, sheetIndex);
+
+        let sheetObject: SheetObjectType = {};
+
+        if (sheetIndex == SHEET_SELECT_ALL.index) { //选择所有
+            let sheetNames = workBook.value.SheetNames;
+            for (let i = 0; i < sheetNames.length; i++) {
+                sheetObject[sheetNames[i]] = sheet2json(workBook.value, i);
+            }
+        } else {
+            sheetObject[workBook.value.SheetNames[sheetIndex]] = sheet2json(workBook.value, sheetIndex);
+        }
         try {
-            handleXlsxData({ list, sheetName: workBook.value.SheetNames[sheetIndex], fileName: sheetDialogConfig.fileName, uploadType });
+            handleXlsxData({ sheetObject, fileName: sheetDialogConfig.fileName, uploadType });
         } catch (error: any) {
             console.error(error);
             ElMessage.error(error.message);
         } finally { workBook.value = undefined; }
-
     }
 
     return {
