@@ -93,7 +93,7 @@ export default (dataList: [], series: SeriesKeyType) => {
         data[keyList.dealerId] = item.dealerId;
         data[keyList.dealerName] = item.dealerName;
         data[keyList.seriesId] = item.seriesId;
-        data[keyList.orderAt] = item.orderAt; console.log(item.orderAt);
+        data[keyList.orderAt] = item.orderAt;
         return data;
     });
 }

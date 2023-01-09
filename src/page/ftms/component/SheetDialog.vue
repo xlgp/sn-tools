@@ -3,8 +3,8 @@
     <p>{{ fileName }}</p>
     <radio-title text="Sheet" />
     <el-radio-group v-model="sheetIndex" @change="handleChange">
-      <el-radio v-for="(item, index) in sheetNames" :label="index" border>{{
-        item
+      <el-radio v-for="item in sheetNameList" :label="item.index" border>{{
+        item.label
       }}</el-radio>
     </el-radio-group>
     <template #footer>
@@ -16,6 +16,7 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
+import { SHEET_SELECT_ALL } from "../contants/constans";
 import RadioTitle from "./RadioTitle.vue";
 const props = defineProps({
   sheetIndex: {
@@ -35,6 +36,19 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["update:sheetIndex", "update:visible", "select"]);
+
+const sheetNameList = computed({
+  get() {
+    let list = props.sheetNames.map((label, index) => {
+      return { index, label };
+    });
+    list.push(SHEET_SELECT_ALL);
+    return list;
+  },
+  set(value) {
+    console.log(value);
+  },
+});
 
 const dialogVisible = computed({
   get() {

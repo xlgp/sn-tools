@@ -8,6 +8,11 @@ export const SeriesKeyList: SeriesKeyType[] = [
     { id: RAV4, text: "荣放", label: "rav4" }
 ];
 
+export const SHEET_SELECT_ALL = {
+    index:-1,
+    label:"全部"
+};
+
 export const keyList = {
     city: "城市",
     username: "姓名",
