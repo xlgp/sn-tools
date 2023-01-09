@@ -9,6 +9,10 @@ export interface DataType {
     orderAt: string
 }
 
+interface CitysType {
+    [key: string]: SeriesType[]
+}
+
 export interface SeriesKeyType {
     id: number,
     text: string;

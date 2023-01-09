@@ -1,16 +1,7 @@
-import { keyList, SeriesKeyList } from "../contants/constans";
-import { SeriesKeyType, SeriesType, DataType } from "../data";
+import { hourWeight, keyList, SeriesKeyList, weightSum } from "../contants/constans";
+import { SeriesKeyType, DataType, CitysType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
-
-interface CitysType {
-    [key: string]: SeriesType[]
-}
-
-function getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //不含最大值，含最小值
-}
+import { getRandomInt, linearScan, prefix0 } from "../util";
 
 function setDealer(list: DataType[], citys: CitysType) {
     list.forEach(item => {
@@ -21,50 +12,11 @@ function setDealer(list: DataType[], citys: CitysType) {
     });
 }
 
-/**
- * 补零
- */
-export function prefix0(num: number) {
-    return num < 10 && "0" + num || num;
-}
-
-/**
- * 权重值
- */
-const hourWeight = {
-    hour: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
-    weight: [15, 19, 14, 8, 10, 17, 16, 12, 10, 5, 3, 3, 2, 2],
-};
-
-/**
- * 权重总和
- */
-const weightSum = (() => {
-    return hourWeight.weight.reduce((a, v) => a + v);
-})();
-
-/**
- * 权重设计
- * 线性扫描
- */
-function getHourIndex() {
-    let rand = getRandomInt(0, weightSum);
-    for (let i = 0; i < hourWeight.weight.length; i++) {
-        const weight = hourWeight.weight[i];
-        rand -= weight;
-        if (rand <= 0) {
-            return i;
-        }
-    }
-    return 0;
-}
-
-
 function getTime() {
 
     const { dateTime } = useFtmsStore();
 
-    let hourIndex = getHourIndex();
+    let hourIndex = linearScan(hourWeight.weight, weightSum);
     let hour = hourWeight.hour[hourIndex];
 
     let date = new Date(getRandomInt(dateTime[0].getTime(), dateTime[1].getTime()));

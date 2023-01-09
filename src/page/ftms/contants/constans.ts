@@ -17,3 +17,19 @@ export const keyList = {
     dealerName: "经销商名称",
     orderAt: "时间",
 };
+
+
+/**
+ * 权重值
+ */
+export const hourWeight = {
+    hour: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+    weight: [15, 19, 14, 8, 10, 17, 16, 12, 10, 5, 3, 3, 2, 2],
+};
+
+/**
+ * 权重总和
+ */
+export const weightSum = (() => {
+    return hourWeight.weight.reduce((a, v) => a + v);
+})();
