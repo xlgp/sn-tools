@@ -1,7 +1,7 @@
 <template>
   <div style="margin-bottom: 20px">
     <radio-title text="数据类型" />
-    <el-radio-group v-model="modelValue" @change="handleChange">
+    <el-radio-group v-model="value">
       <el-radio-button v-for="item in uploadTypeRadioKeyList" :label="item.id" border>{{
         item.text
       }}</el-radio-button>
@@ -14,12 +14,13 @@ import { useFtmsStore } from "../stores/ftms";
 import RadioTitle from "./RadioTitle.vue";
 const { uploadTypeRadioKeyList } = useFtmsStore();
 
-defineProps(["modelValue"]);
+const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 
-const handleChange = (val: any) => {
-  emit("update:modelValue", val);
-};
+const value = computed({
+  get: () => props.modelValue,
+  set: (value) => emit("update:modelValue", value),
+});
 </script>
 <style scoped>
 .title {
