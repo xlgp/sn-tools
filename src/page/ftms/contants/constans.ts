@@ -1,4 +1,4 @@
-import { SeriesKeyType } from "../data";
+import { KeyItemType, SeriesKeyType } from "../data";
 
 export const KLUGER = 57;
 export const RAV4 = 38;
@@ -9,8 +9,8 @@ export const SeriesKeyList: SeriesKeyType[] = [
 ];
 
 export const SHEET_SELECT_ALL = {
-    index:-1,
-    label:"全部"
+    index: -1,
+    label: "全部"
 };
 
 export const keyList = {
@@ -22,6 +22,34 @@ export const keyList = {
     dealerName: "经销商名称",
     orderAt: "时间",
 };
+
+/**
+ * 上传文件类型
+ */
+
+export enum FILE_DATA {
+    DATA = 0,
+    SERIES = 1
+}
+
+export const fileDataType = {
+    data: { id: FILE_DATA.DATA, text: "数据" },
+    seriesData: { id: FILE_DATA.SERIES, text: "车系资料" }
+}
+
+
+
+export const keyItemList: KeyItemType[] = [
+    { key: 'city', zhKey: "城市", index: 1 },
+    { key: 'username', zhKey: "姓名", index: 5 },
+    { key: 'phone', zhKey: "电话", index: 6 }
+]
+
+export const SeriesKeyItemList: KeyItemType[] = [
+    { key: 'dealerId', zhKey: "经销商编码", index: 0 },
+    { key: 'name', zhKey: "经销商名称", index: 1 },
+    { key: 'city', zhKey: "城市", index: 1 },
+];
 
 
 /**

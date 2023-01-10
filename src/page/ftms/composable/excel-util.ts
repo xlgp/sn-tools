@@ -4,8 +4,7 @@
  */
 
 import { read, utils, WorkBook, WorkSheet, write, WritingOptions } from "xlsx";
-import { SeriesKeyType } from "../data";
-import { prefix0 } from "../util";
+import { KeyItemType, SheetItemType } from "../data";
 
 function sheet2blob(
     sheetObject: {
@@ -67,8 +66,6 @@ export const exportToXlsx = (
     },
     fileName: string
 ) => {
-    let date = new Date;
-    let strDate = prefix0(date.getMonth() + 1) + "" + prefix0(date.getDate());
 
     let sheetObject: {
         [key: string]: WorkSheet
@@ -81,8 +78,19 @@ export const exportToXlsx = (
         }
     }
 
-    openDownloadDialog(sheet2blob(sheetObject), strDate + "-" + fileName);
+    openDownloadDialog(sheet2blob(sheetObject), getSaveName(Object.keys(sheetObject), fileName));
 }
+
+function getSaveName(sheetNames: string[], fileName: string) {
+
+    let lastIndex = fileName.lastIndexOf(".");
+
+    let sheetName = sheetNames.length == 1 && sheetNames[0] + "-" || "";
+
+    return fileName.substring(0, lastIndex) + "-" + sheetName + (+new Date) + fileName.substring(lastIndex);
+
+}
+
 
 export const importXlsx = (file: File) => {
     return new Promise((resolve, reject) => {
@@ -99,7 +107,33 @@ export const importXlsx = (file: File) => {
     });
 }
 
-export const sheet2json = (workBook: WorkBook, sheetIndex: number) => {
+/**
+ * 
+ * @param workBook 
+ * @param sheetIndex 
+ * @param keyList 
+ * @param startRowIndex :起始行，若第一行是标题，则从第二行开始
+ * @returns 
+ */
+export const sheet2json = (workBook: WorkBook, sheetIndex: number, keyList: KeyItemType[], startRowIndex: number = 0, splitReg = "\t") => {
     let sheet = workBook.Sheets[workBook.SheetNames[sheetIndex]];
-    return utils.sheet_to_json(sheet) as [];
+    let lineList = utils.sheet_to_txt(sheet).split("\n");
+
+    //判断第一行是否是标题
+    startRowIndex = keyList.find(item => lineList[0].includes(item.zhKey) || lineList[0].includes(item.key)) && 1 || 0;
+
+    let resultList = [];
+    for (let i = startRowIndex; i < lineList.length; i++) {
+        const line = lineList[i];
+        let list = line.split(splitReg);
+        let item: SheetItemType = {};
+
+        for (const keyItem of keyList) {
+            item[keyItem.key] = list[keyItem.index].trim()
+        }
+
+        resultList.push(item);
+    }
+
+    return resultList;
 }

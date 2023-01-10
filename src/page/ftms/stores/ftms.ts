@@ -1,4 +1,4 @@
-import { SeriesKeyList } from "../contants/constans";
+import { fileDataType, SeriesKeyList } from "../contants/constans";
 import { SeriesKeyType, SeriesType } from "../data";
 
 export const useFtmsStore = defineStore("ftmsStore", () => {
@@ -9,10 +9,7 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
         new Date(toDay.getFullYear(), toDay.getMonth(), toDay.getDate(), 17, 59, 59)
     ]);
 
-    const uploadTypeRadioKeyList = reactive({
-        data: { id: 0, text: "数据" },
-        seriesData: { id: 1, text: "车系资料" }
-    });
+    const uploadTypeRadioKeyList = reactive(fileDataType);
 
     function getLocalKey(series: SeriesKeyType) {
         return series.label + series.id;

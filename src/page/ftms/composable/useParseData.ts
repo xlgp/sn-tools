@@ -1,5 +1,5 @@
 import { hourWeight, keyList, SeriesKeyList, weightSum } from "../contants/constans";
-import { SeriesKeyType, DataType, CitysType } from "../data";
+import { SeriesKeyType, DataType, CitysType, SheetItemType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
 import { getRandomInt, linearScan, prefix0 } from "../util";
 
@@ -58,17 +58,15 @@ export function getSeriesFromName(sheetName: string, name: string) {
     throw new Error("没有从文件名或sheet name 中找到车系名称");
 }
 
-export default (dataList: [], series: SeriesKeyType) => {
+export default (dataList: SheetItemType[], series: SeriesKeyType) => {
 
     const { seriesList } = storeToRefs(useFtmsStore());
 
     let tmpSeriesList = seriesList.value[series.label];
 
-    let list = dataList.map((item: any) => {
+    let list = dataList.map((item: SheetItemType) => {
         return {
-            city: item[keyList.city],
-            username: item[keyList.username],
-            phone: item[keyList.phone],
+            ...item,
             seriesId: series.id
         } as DataType;
     });

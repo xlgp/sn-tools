@@ -1,7 +1,7 @@
 import { Ref } from "vue";
 import { WorkBook } from "xlsx";
-import { SHEET_SELECT_ALL } from "../contants/constans";
-import { SeriesType, SheetObjectType } from "../data";
+import { FILE_DATA, keyItemList, SeriesKeyItemList, SHEET_SELECT_ALL } from "../contants/constans";
+import { SeriesType, SheetItemType, SheetObjectType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
 import { exportToXlsx, sheet2json } from "./excel-util";
 import useParseData, { getSeriesFromName } from "./useParseData";
@@ -22,7 +22,7 @@ export default () => {
     }) => {
         const { sheetObject, fileName, uploadType } = params;
 
-        if (uploadType.value == uploadTypeRadioKeyList.value.data.id) { //数据
+        if (uploadType.value == FILE_DATA.DATA) { //数据
 
             let dataObject: {
                 [key: string]: {
@@ -32,7 +32,7 @@ export default () => {
 
             for (const sheetName in sheetObject) {
                 if (Object.prototype.hasOwnProperty.call(sheetObject, sheetName)) {
-                    const list: [] = sheetObject[sheetName];
+                    const list: SheetItemType[] = sheetObject[sheetName];
                     let series = getSeriesFromName(sheetName, fileName);
                     if (!store.hasSeriesData(series)) {
                         throw new Error(`没有该车系的数据：${series.text} 请先上传${series.text}的数据`);
@@ -42,13 +42,13 @@ export default () => {
             }
             exportToXlsx(dataObject, fileName);
 
-        } else if (uploadType.value == uploadTypeRadioKeyList.value.seriesData.id) {
+        } else if (uploadType.value == FILE_DATA.SERIES) {
 
             for (const sheetName in sheetObject) {
                 if (Object.prototype.hasOwnProperty.call(sheetObject, sheetName)) {
-                    const list: [] = sheetObject[sheetName];
+                    const list: SheetItemType[] = sheetObject[sheetName];
                     let series = getSeriesFromName(sheetName, fileName);
-                    store.saveSeries(list as SeriesType[], series);
+                    store.saveSeries(list as unknown as SeriesType[], series);
                     ElMessage.success(`已添加${sheetName}${list.length}条数据`);
                 }
             }
@@ -72,20 +72,33 @@ export default () => {
         sheetDialogConfig.fileName = fileName;
     }
 
+    /**
+     * 数据转化时，keylist
+     */
+    function getKeyItem(uploadType: number) {
+        if (uploadType == FILE_DATA.DATA) {
+            return keyItemList;
+        } else if (uploadType == FILE_DATA.SERIES) {
+            return SeriesKeyItemList;
+        }
+        throw new Error(`没有此类型key:${uploadType}`);
+    }
+
     const handleSheetSelect = (sheetIndex: number) => {
         if (!workBook.value) {
             return;
         }
 
-        let sheetObject: SheetObjectType = {};
+        let sheetObject: SheetObjectType = {} as SheetObjectType;
 
         if (sheetIndex == SHEET_SELECT_ALL.index) { //选择所有
             let sheetNames = workBook.value.SheetNames;
+            let keyList = getKeyItem(uploadType.value);
             for (let i = 0; i < sheetNames.length; i++) {
-                sheetObject[sheetNames[i]] = sheet2json(workBook.value, i);
+                sheetObject[sheetNames[i]] = sheet2json(workBook.value, i, keyList);
             }
         } else {
-            sheetObject[workBook.value.SheetNames[sheetIndex]] = sheet2json(workBook.value, sheetIndex);
+            sheetObject[workBook.value.SheetNames[sheetIndex]] = sheet2json(workBook.value, sheetIndex, getKeyItem(uploadType.value));
         }
         try {
             handleXlsxData({ sheetObject, fileName: sheetDialogConfig.fileName, uploadType });

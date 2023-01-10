@@ -10,7 +10,11 @@ export interface DataType {
 }
 
 export interface SheetObjectType {
-    [key: string]: []
+    [key: string]: SheetItemType[]
+}
+
+export interface SheetItemType {
+    [key: string]: string
 }
 
 interface CitysType {
@@ -32,4 +36,10 @@ export interface SeriesType {
     dealerId: string,
     name: string,
     city: string
+}
+
+export interface KeyItemType {
+    index: number;
+    key: string,
+    zhKey: string
 }
