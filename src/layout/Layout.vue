@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>小工具<icon-gitee /></el-header>
-    <el-container>
+    <el-container class="container">
       <el-aside width="200px">
         <aside-router />
       </el-aside>
@@ -12,7 +12,7 @@
   </el-container>
 </template>
 <script setup></script>
-<style scope>
+<style scoped>
 .el-header {
   text-align: center;
   font-size: 28px;
@@ -25,12 +25,10 @@
   background-color: #000b26;
 }
 
-.link {
-  padding: 10px;
-  color: #ffffff;
-  display: flex;
-}
-.router-link-exact-active {
-  background-color: #0053a9;
+.container {
+  position: absolute;
+  height: 100%;
+  padding-top: 60px;
+  width: 100%;
 }
 </style>

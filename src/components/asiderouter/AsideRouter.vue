@@ -14,3 +14,13 @@ const route = useRoute();
 
 const routerLinkList = router.getRoutes().filter((item) => !item.meta.menuHidden);
 </script>
+<style scoped>
+.link {
+  padding: 10px;
+  color: #ffffff;
+  display: flex;
+}
+.router-link-exact-active {
+  background-color: #0053a9;
+}
+</style>
