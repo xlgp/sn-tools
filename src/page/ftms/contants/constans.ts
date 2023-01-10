@@ -14,6 +14,16 @@ export const SHEET_SELECT_ALL = {
 };
 
 export const keyList = {
+    city: "city",
+    username: "username",
+    phone: "phone",
+    seriesId: "series_id",
+    dealerId: "dealer_id",
+    dealerName: "company",
+    orderAt: "order_at",
+};
+
+export const keyZhList = {
     city: "城市",
     username: "姓名",
     phone: "电话",
