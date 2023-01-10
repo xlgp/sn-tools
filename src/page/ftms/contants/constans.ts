@@ -48,7 +48,7 @@ export const keyItemList: KeyItemType[] = [
 export const SeriesKeyItemList: KeyItemType[] = [
     { key: 'dealerId', zhKey: "经销商编码", index: 0 },
     { key: 'name', zhKey: "经销商名称", index: 1 },
-    { key: 'city', zhKey: "城市", index: 1 },
+    { key: 'city', zhKey: "城市", index: 2 },
 ];
 
 
