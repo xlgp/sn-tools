@@ -45,6 +45,34 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  build: {
+    minify: "terser",
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            const arr = id.toString().split('node_modules/')[1].split('/')
+            switch (arr[0]) {
+              case '@vue':
+              case 'axios':
+              case 'pinia':
+              case '@element-plus':
+              case 'element-plus':
+              case 'xlsx':
+                return '_' + arr[0]
+                break
+              default:
+                return '__vendor'
+                break
+            }
+          }
+        },
+        chunkFileNames: 'assets/js1/[name]-[hash].js',
+        entryFileNames: 'assets/js2/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
+      }
+    }
+  },
   css: {
     preprocessorOptions: {
       scss: {
