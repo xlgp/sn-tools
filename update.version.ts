@@ -24,6 +24,6 @@ export default async () => {
     let packageText = await readFile(filePath, { encoding: "utf8" });
     let packageJson = JSON.parse(packageText);
     packageJson.version = setVersion(packageJson.version);
-    await writeFile(filePath, JSON.parse(packageJson), { encoding: "utf8" });
+    await writeFile(filePath, JSON.stringify(packageJson), { encoding: "utf8" });
     console.log(`package version is updated:${packageJson.version}`);
 };

@@ -9,6 +9,7 @@ import {
   createStyleImportPlugin,
   ElementPlusResolve,
 } from "vite-plugin-style-import";
+import updateVersion from "./update.version";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ command, mode }) => {
@@ -95,6 +96,9 @@ export default defineConfig(async ({ command, mode }) => {
         ],
       },
     },
+  }
+  if (command == "build") {
+    await updateVersion();
   }
   return config;
 });
