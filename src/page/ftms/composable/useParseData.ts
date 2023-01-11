@@ -78,6 +78,9 @@ export default (dataList: SheetItemType[], series: SeriesKeyType) => {
 
     citylist.forEach(city => {
         citys[city] = tmpSeriesList.filter(item => item.city == city);
+        if(citys[city].length == 0){
+            throw new Error(`没有该字段的车系数据：${city}`);
+        }
     });
 
     setDealer(list, citys);
