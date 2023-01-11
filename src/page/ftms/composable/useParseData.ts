@@ -28,8 +28,8 @@ function getTime() {
     let month = date.getMonth() + 1;
     let day = date.getDate();
 
-    let minute = prefix0(getRandomInt(0, 60));
-    let second = prefix0(getRandomInt(0, 60));
+    let minute = prefix0(date.getMinutes());
+    let second = prefix0(date.getSeconds());
 
     return year + "-" + prefix0(month) + "-" + prefix0(day) + " " + prefix0(hour) + ":" + minute + ":" + second;
 }
