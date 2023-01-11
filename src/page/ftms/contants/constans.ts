@@ -67,7 +67,7 @@ export const SeriesKeyItemList: KeyItemType[] = [
  */
 export const hourWeight = {
     hour: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
-    weight: [10, 9, 9, 8, 10, 8, 10, 11, 9, 9, 7, 3, 2, 1],
+    weight: [9, 6, 3, 2, 1, 3, 4, 3, 3, 8, 8, 4, 2, 1],
 };
 
 /**
