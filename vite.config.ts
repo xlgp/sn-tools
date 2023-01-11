@@ -95,10 +95,8 @@ export default defineConfig(async ({ command, mode }) => {
           },
         ],
       },
-    },
+    }
   }
-  if (command == "build") {
-    await updateVersion();
-  }
+  await updateVersion(command);
   return config;
 });
