@@ -4,6 +4,7 @@
     <el-container class="container">
       <el-aside width="200px">
         <aside-router />
+        <version />
       </el-aside>
       <el-main>
         <router-view></router-view>
@@ -23,6 +24,7 @@
 
 .el-aside {
   background-color: #000b26;
+  position: relative;
 }
 
 .container {
