@@ -95,15 +95,18 @@ export const importXlsx = (file: File) => {
  * @param workBook 
  * @param sheetIndex 
  * @param keyList 
- * @param startRowIndex :起始行，若第一行是标题，则从第二行开始
+ * @param startRowIndex 起始行，若第一行是标题，则从第二行开始
+ * @param splitReg 
  * @returns 
  */
-export const sheet2json = (workBook: WorkBook, sheetIndex: number, keyList: KeyItemType[], startRowIndex: number = 0, splitReg = "\t") => {
+export const sheet2json = (workBook: WorkBook, sheetIndex: number, keyList: KeyItemType[], startRowIndex?: number, splitReg = "\t") => {
     let sheet = workBook.Sheets[workBook.SheetNames[sheetIndex]];
     let lineList = utils.sheet_to_txt(sheet).split("\n");
 
     //判断第一行是否是标题
-    startRowIndex = keyList.find(item => lineList[0].includes(item.zhKey) || lineList[0].includes(item.key)) && 1 || 0;
+    if (startRowIndex == undefined) {
+        startRowIndex = keyList.find(item => lineList[0].includes(item.zhKey) || lineList[0].includes(item.key)) && 1 || 0;
+    }
 
     let resultList = [];
     for (let i = startRowIndex; i < lineList.length; i++) {
