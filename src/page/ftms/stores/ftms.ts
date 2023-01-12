@@ -1,10 +1,11 @@
+import { Ref } from "vue";
 import { fileDataType, SeriesKeyList } from "../contants/constans";
 import { SeriesKeyType, SeriesType } from "../data";
 
 export const useFtmsStore = defineStore("ftmsStore", () => {
 
     let toDay = new Date;
-    const dateTime = ref([
+    const dateTime: Ref<[Date, Date]> = ref<[Date, Date]>([
         new Date(toDay.getFullYear(), toDay.getMonth(), toDay.getDate() - 1, 18),
         new Date(toDay.getFullYear(), toDay.getMonth(), toDay.getDate(), 17, 30, 0)
     ]);

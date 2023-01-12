@@ -12,10 +12,7 @@ export function prefix0(num: number) {
 }
 
 export function downloadFile(blob: Blob, saveName: string) {
-    let url = "";
-    if (typeof blob == 'object' && blob instanceof Blob) {
-        url = URL.createObjectURL(blob); // 创建blob地址
-    }
+    let url = URL.createObjectURL(blob);
     var aLink = document.createElement('a');
     aLink.href = url;
     aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
