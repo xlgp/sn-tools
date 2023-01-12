@@ -41,7 +41,7 @@ function setVersionLine(packageText: string) {
     };
 }
 
-async function updateVersion() {
+export default async () => {
     console.log("update version...");
 
     let packageText = await readFile(filePath, { encoding: "utf8" });
@@ -51,9 +51,3 @@ async function updateVersion() {
 
     console.log(`package version is updated:${result.newVersion}`);
 }
-
-export default (command) => {
-    if (command == "build") {
-        return updateVersion();
-    }
-};
