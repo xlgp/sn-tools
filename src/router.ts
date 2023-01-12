@@ -16,11 +16,7 @@ const routes = [
       { path: '/volume', name: 'volume', component: Volume, meta: { title: '体积计算' } },
       { path: '/tongji', name: 'tongji', component: TongJi, meta: { title: '品牌统计' } },
       { path: '/ftms', name: 'ftms', component: Ftms, meta: { title: "留资数据格式化" } },
-      {
-        path: 'dingnengorder', name: 'dingnengOrder', redirect: '/dingnengorder/create', meta: { title: "鼎能面单" }, children: [
-          { path: 'create', name: 'dingnengOrderCreate', component: DingnengOrderCreate, meta: { menuHidden: true }, },
-        ]
-      },
+      { path: 'dingnengorder', name: 'dingnengOrder', component: DingnengOrderCreate, meta: { title: "鼎能面单" } },
       { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { menuHidden: true } }
     ],
   },

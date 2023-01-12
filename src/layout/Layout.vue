@@ -12,7 +12,7 @@
     </el-container>
   </el-container>
 </template>
-<script setup></script>
+<script setup lang="ts"></script>
 <style scoped>
 .el-header {
   text-align: center;
