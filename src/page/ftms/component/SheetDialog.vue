@@ -2,7 +2,7 @@
   <el-dialog v-model="dialogVisible" title="选择Sheet">
     <p>{{ fileName }}</p>
     <radio-title text="Sheet" />
-    <el-radio-group v-model="sheetIndex" @change="handleChange">
+    <el-radio-group v-model="sheetIndexValue" @change="handleChange">
       <el-radio v-for="item in sheetNameList" :label="item.index" border>{{
         item.label
       }}</el-radio>
@@ -43,12 +43,21 @@ const sheetNameList = computed({
       SHEET_SELECT_ALL,
       ...props.sheetNames.map((label, index) => {
         return { index, label };
-      })
-    ]
+      }),
+    ];
     return list;
   },
   set(value) {
     console.log(value);
+  },
+});
+
+const sheetIndexValue = computed({
+  get() {
+    return props.sheetIndex;
+  },
+  set(value) {
+    emit("update:sheetIndex", value);
   },
 });
 
