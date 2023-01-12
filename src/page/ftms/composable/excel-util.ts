@@ -109,17 +109,25 @@ export const sheet2json = (workBook: WorkBook, sheetIndex: number, keyList: KeyI
     }
 
     let resultList = [];
+    let emptyCount = 0;
     for (let i = startRowIndex; i < lineList.length; i++) {
-        const line = lineList[i];
+        const line = lineList[i].trim();
+        if (!line) {
+            emptyCount++;
+            continue;
+        }
         let list = line.split(splitReg);
         let item: SheetItemType = {};
 
         for (const keyItem of keyList) {
-            item[keyItem.key] = list[keyItem.index].trim()
+            item[keyItem.key] = list[keyItem.index].trim();
+            if (!item[keyItem.key].length) {
+                emptyCount++;
+            }
         }
 
         resultList.push(item);
     }
 
-    return resultList;
+    return { list: resultList, emptyCount };
 }

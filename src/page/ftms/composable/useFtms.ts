@@ -84,6 +84,12 @@ export default () => {
         throw new Error(`没有此类型key:${uploadType}`);
     }
 
+    function handleEmptyLine(sheetName: string, emptyCount: number) {
+        if (emptyCount) {
+            ElMessage.warning(`sheet:${sheetName} 已忽略${emptyCount}行空数据`);
+        }
+    }
+
     const handleSheetSelect = (sheetIndex: number) => {
         if (!workBook.value) {
             return;
@@ -95,10 +101,14 @@ export default () => {
             let sheetNames = workBook.value.SheetNames;
             let keyList = getKeyItem(uploadType.value);
             for (let i = 0; i < sheetNames.length; i++) {
-                sheetObject[sheetNames[i]] = sheet2json(workBook.value, i, keyList);
+                let result = sheet2json(workBook.value, i, keyList);
+                sheetObject[sheetNames[i]] = result.list;
+                handleEmptyLine(sheetNames[i], result.emptyCount);
             }
         } else {
-            sheetObject[workBook.value.SheetNames[sheetIndex]] = sheet2json(workBook.value, sheetIndex, getKeyItem(uploadType.value));
+            let result = sheet2json(workBook.value, sheetIndex, getKeyItem(uploadType.value));
+            sheetObject[workBook.value.SheetNames[sheetIndex]] = result.list;
+            handleEmptyLine(workBook.value.SheetNames[sheetIndex], result.emptyCount);
         }
         try {
             handleXlsxData({ sheetObject, fileName: sheetDialogConfig.fileName, uploadType });
