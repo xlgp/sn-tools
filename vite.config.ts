@@ -23,7 +23,7 @@ export default defineConfig(async ({ command, mode }) => {
     },
     plugins: [
       vue(),
-      vitePluginUpdateVersion({command:"all"}),
+      vitePluginUpdateVersion(),
       viteCompression(),
       createStyleImportPlugin({
         resolves: [ElementPlusResolve()],
