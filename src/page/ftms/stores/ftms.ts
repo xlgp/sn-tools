@@ -1,6 +1,7 @@
 import { Ref } from "vue";
 import { fileDataType, SeriesKeyList } from "../contants/constans";
 import { SeriesKeyType, SeriesType } from "../data";
+import { getLocalKey, getSeries } from "../util";
 
 export const useFtmsStore = defineStore("ftmsStore", () => {
 
@@ -11,16 +12,6 @@ export const useFtmsStore = defineStore("ftmsStore", () => {
     ]);
 
     const uploadTypeRadioKeyList = reactive(fileDataType);
-
-    function getLocalKey(series: SeriesKeyType) {
-        return series.label + series.id;
-    }
-
-
-    function getSeries(series: SeriesKeyType) {
-        let text = localStorage.getItem(getLocalKey(series));
-        return text && JSON.parse(text) || [];
-    }
 
     /**
      * key:SeriesKeyList.label

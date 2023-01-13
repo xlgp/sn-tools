@@ -1,3 +1,5 @@
+import { SeriesKeyType } from "./data";
+
 export function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -42,4 +44,22 @@ export function linearScan(weights: number[], weightSum: number) {
         }
     }
     return 0;
+}
+
+export function getLocalKey(series: SeriesKeyType) {
+    return series.label + series.id;
+}
+
+export function getSeries(series: SeriesKeyType) {
+    let text = localStorage.getItem(getLocalKey(series));
+    return text && JSON.parse(text) || [];
+}
+
+/**
+ * 手机段号
+ * @date 2023-01-13
+ */
+const chinesePhoneReg = /^(0|86|17951)?(13[0-9]|14[01456789]|15[012356789]|16[2567]|17[235678]|18[0-9]|19[012356789])[0-9]{8}$/;
+export function checkChinesePhone(phone: string | number) {
+    return chinesePhoneReg.test(phone.toString());
 }

@@ -1,7 +1,7 @@
 import { hourWeight, keyList, SeriesKeyList, weightSum } from "../contants/constans";
 import { SeriesKeyType, DataType, CitysType, SheetItemType } from "../data";
 import { useFtmsStore } from "../stores/ftms";
-import { getRandomInt, linearScan, prefix0 } from "../util";
+import { checkChinesePhone, getRandomInt, linearScan, prefix0 } from "../util";
 
 function setDealer(list: DataType[], citys: CitysType) {
     list.forEach(item => {
@@ -64,11 +64,17 @@ export default (dataList: SheetItemType[], series: SeriesKeyType) => {
 
     let tmpSeriesList = seriesList.value[series.label];
 
-    let list = dataList.map((item: SheetItemType) => {
-        return {
+    let list = dataList.map((item: SheetItemType, index: number) => {
+
+        let result = {
             ...item,
             seriesId: series.id
         } as DataType;
+
+        if (!checkChinesePhone(result.phone)) {
+            console.warn(`${index + 1}:${result.phone}有误`);
+        }
+        return result;
     });
 
     let citylist = new Set<string>();
@@ -78,7 +84,7 @@ export default (dataList: SheetItemType[], series: SeriesKeyType) => {
 
     citylist.forEach(city => {
         citys[city] = tmpSeriesList.filter(item => item.city == city);
-        if(citys[city].length == 0){
+        if (citys[city].length == 0) {
             throw new Error(`没有该字段的车系数据：${city}`);
         }
     });
