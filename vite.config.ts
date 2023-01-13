@@ -9,7 +9,6 @@ import {
   createStyleImportPlugin,
   ElementPlusResolve,
 } from "vite-plugin-style-import";
-import vitePluginUpdateVersion from "./vite-plugin-update-version";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ command, mode }) => {
@@ -23,7 +22,6 @@ export default defineConfig(async ({ command, mode }) => {
     },
     plugins: [
       vue(),
-      vitePluginUpdateVersion(),
       viteCompression(),
       createStyleImportPlugin({
         resolves: [ElementPlusResolve()],
