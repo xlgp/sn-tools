@@ -3,14 +3,16 @@
     "version": "3.0.1",
     "scripts": {
         "dev": "vite",
-        "build":"vue-tsc --noEmit && vite build --base=/sn-tools/",
+        "build": "vue-tsc --noEmit && vite build --base=/sn-tools/",
         "serve": "vite preview",
         "push:gepage": "git subtree push --prefix=dist gitee ge-pages",
         "ext": "vue-tsc --noEmit && vite build",
         "push:ext": "git subtree push --prefix=dist gitee extensions"
     },
     "dependencies": {
+        "@highlightjs/vue-plugin": "^2.1.0",
         "element-plus": "^2.2.32",
+        "highlight.js": "^11.7.0",
         "jsbarcode": "^3.11.5",
         "npm-check-updates": "^16.7.10",
         "pinia": "^2.0.32",

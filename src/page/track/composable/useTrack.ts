@@ -17,11 +17,14 @@ export default () => {
         store.dataList.splice(index, 1);
     };
 
-    const createJsonItem = () => {
-
-    }
+    const jsonCode = computed(() => {
+        return JSON.stringify({
+            list: store.dataList,
+            dn_order_id: store.dn_order_id
+        }, null, 2);
+    });
 
     return {
-        addItem, deleteAllItem, deleteItem, createJsonItem
+        addItem, deleteAllItem, deleteItem, jsonCode
     };
 }

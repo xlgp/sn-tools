@@ -14,12 +14,14 @@
             <el-button type="danger" text>删除</el-button>
           </template>
         </el-popconfirm>
-        <el-button type="primary" @click="createJsonItem" text>生成Json</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :span="14">
         <track-table />
+      </el-col>
+      <el-col :span="10">
+        <high-light-code />
       </el-col>
     </el-row>
   </el-form>
@@ -27,15 +29,9 @@
 
 <script setup lang="ts">
 import useTrack from "./composable/useTrack";
-
 import { useTrackStore } from "./stores/track";
 
-const { dn_order_id } = useTrackStore();
+const { dn_order_id } = storeToRefs(useTrackStore());
 
-const { addItem, deleteAllItem, deleteItem, createJsonItem } = useTrack();
+const { addItem, deleteAllItem } = useTrack();
 </script>
-<style scoped>
-.col {
-  margin-bottom: 10px;
-}
-</style>
