@@ -43,6 +43,7 @@ export default defineConfig(async ({ command, mode }) => {
         resolvers: [ElementPlusResolver()],
       }),
       Components({
+        dirs:["src/components", "src/page"],
         resolvers: [ElementPlusResolver()],
       }),
     ],

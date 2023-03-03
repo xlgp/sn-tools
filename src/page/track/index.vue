@@ -7,17 +7,17 @@
       </template>
     </el-popconfirm>
   </h2>
-  <el-form label-width="50px" :rules="rules">
+  <el-form label-width="50px">
     <el-row :gutter="10">
       <el-col :span="8">
-        <el-form-item label="订单号" label-width="80px" prop="dn_order_id">
+        <el-form-item label="订单号" label-width="80px">
           <el-input v-model="dn_order_id" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col class="col" :span="8" v-for="(item, index) in dataList">
-        <TrackItem
+        <track-item
           v-model="dataList[index]"
           :index="index"
           @delete="deleteItem(index)"
@@ -29,11 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import TrackItem from "./component/TrackItem.vue";
 import useTrack from "./composable/useTrack";
-import useRules from "./composable/useRules";
-
-const rules = useRules();
 
 const {
   dataList,

@@ -8,7 +8,7 @@
     </el-col>
     <el-col :span="12">
       <UploadTypeRadio v-model="uploadType" />
-      <uploadVue @change="handleChange" />
+      <SnUpload @change="handleChange" />
     </el-col>
   </el-row>
   <SheetDialog
@@ -22,14 +22,8 @@
 <script setup lang="ts">
 import { ElMessage, UploadRawFile } from "element-plus";
 import { importXlsx } from "./composable/excel-util";
-import uploadVue from "./component/upload.vue";
-import UploadTypeRadio from "./component/UploadTypeRadio.vue";
-import SnForm from "./component/SnForm.vue";
 import useFtms from "./composable/useFtms";
-import TipAlert from "./component/TipAlert.vue";
-import TipDescription from "./component/TipDescription.vue";
 import { WorkBook } from "xlsx";
-import SheetDialog from "./component/SheetDialog.vue";
 
 const {
   uploadType,
