@@ -12,3 +12,10 @@ export const track_status: {
     //已签收
     SIGNED: { code: 3, text: "签收" },
 };
+
+export const colunms = {
+    status: "状态",
+    update_time: "时间",
+    info: "信息",
+    station: "地点",
+};
