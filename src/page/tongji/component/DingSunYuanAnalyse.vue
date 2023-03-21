@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import { ComputedRef } from "vue";
-import ClipboardJS from "clipboard";
 import useDingSunYuanAnalyse, {
   DingSunYuanAnalyseType,
 } from "../composable/dingSunYuanAnalyse";
@@ -39,9 +38,6 @@ export default defineComponent({
     const analyseResult = useDingSunYuanAnalyse(dataList, totalAmount);
     const tableData: ComputedRef<DingSunYuanAnalyseType[]> = computed(() => {
       return Object.values(analyseResult.value);
-    });
-    onMounted(() => {
-      new ClipboardJS("#dsytable");
     });
     return {
       tableData,

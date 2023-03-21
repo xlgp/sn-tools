@@ -37,7 +37,9 @@
 
 <script setup lang="ts">
 import { ElMessage } from "element-plus";
-import useClipboard from "vue-clipboard3";
+import { useClipboard } from "@vueuse/core";
+
+const { text, copy, copied, isSupported } = useClipboard();
 
 const { showComputedList, totalCount, showList, region } = defineProps({
   showComputedList: Array,
@@ -46,15 +48,13 @@ const { showComputedList, totalCount, showList, region } = defineProps({
   region: String,
 });
 
-const { toClipboard } = useClipboard();
-
 const qqDocLink = ref("https://docs.qq.com/sheet/DS0FkVVhwd29KdHNk");
 
 const handleCopy = async (value: any) => {
   try {
     if (value == undefined) return;
     let text = (Array.isArray(value) && value.join("\n")) || value.toString();
-    await toClipboard(text);
+    copy(text);
     ElMessage({
       message: "复制成功",
       type: "success",

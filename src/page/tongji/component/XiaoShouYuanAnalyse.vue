@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { DataItemType } from "../data";
-import ClipboardJS from "clipboard";
 import { ComputedRef } from "vue";
 
 interface ItemType {
@@ -60,10 +59,6 @@ export default defineComponent({
         return Object.values(result);
       }
       return [] as ItemType[];
-    });
-
-    onMounted(() => {
-      new ClipboardJS("#xsytable");
     });
 
     return {

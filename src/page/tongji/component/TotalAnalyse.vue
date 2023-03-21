@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import useTotalAnalyse from "../composable/totalAnalyse";
-import ClipboardJS from "clipboard";
 import { ComputedRef } from "vue";
 
 export default defineComponent({
@@ -31,10 +30,6 @@ export default defineComponent({
     const chengJiaoData = inject("chengJiaoData") as ComputedRef;
 
     const totalAnalyse = useTotalAnalyse(dataList, totalAmount, chengJiaoData);
-
-    onMounted(() => {
-      new ClipboardJS("#totalTable");
-    });
 
     return {
       totalAnalyse,

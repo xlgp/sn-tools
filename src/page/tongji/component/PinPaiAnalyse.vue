@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import { ComputedRef } from "vue";
-import ClipboardJS from "clipboard";
 import usePinPaiAnalyse, { PinPaiAnalyseType } from "../composable/usePinPaiAnalyse";
 
 export default defineComponent({
@@ -38,10 +37,6 @@ export default defineComponent({
 
     const tableData: ComputedRef<PinPaiAnalyseType[]> = computed(() => {
       return Object.values(pinPaiAnalyseResult.value);
-    });
-
-    onMounted(() => {
-      new ClipboardJS("#pinpaiTable");
     });
     return {
       tableData,

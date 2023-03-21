@@ -21,7 +21,7 @@
         <track-table />
       </el-col>
       <el-col :span="10">
-        <high-light-code />
+        <high-light-code :code="jsonCode" />
       </el-col>
     </el-row>
   </el-form>
@@ -32,6 +32,5 @@ import useTrack from "./composable/useTrack";
 import { useTrackStore } from "./stores/track";
 
 const { dn_order_id } = storeToRefs(useTrackStore());
-
-const { addItem, deleteAllItem } = useTrack();
+const { addItem, deleteAllItem, jsonCode } = useTrack();
 </script>
