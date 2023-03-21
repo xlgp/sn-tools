@@ -7,3 +7,5 @@ export type UserFormType = {
     passwordText: string,
     app_auth_code: string,
 }
+
+export type UserFormKeyType = keyof UserFormType;

@@ -27,17 +27,15 @@
 
 <script lang="ts" setup>
 import { FormInstance } from "element-plus";
-import { reactive } from "vue";
 import useUtils from "../composable/useUtils";
 import useRules from "../composable/useRules";
-import { UserFormType } from "../data";
 import { useUserStore } from "../store/user";
 
 const store = useUserStore();
 const { form } = storeToRefs(store);
 const { init } = store;
 
-const { passwordUtil, createUser } = useUtils;
+const { passwordUtil } = useUtils;
 
 const rules = useRules();
 const formRef = ref();
@@ -50,12 +48,8 @@ watch([() => form.value.passwordText, () => form.value.secretKey], (newValue) =>
   }
 });
 
-const onSubmit = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  await formEl.validate((valid: any) => {
-    if (!valid) return;
-  });
-};
+init();
+
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
